@@ -2,31 +2,8 @@
     <x-slot:title>dashboard</x-slot:title>
     <x-slot:content>
         <div x-data="{ openTambahLowongan: false, openEditLowongan: false, openDeleteModal: false, selectedLowongan: {} }" class="flex min-h-screen bg-gray-100">
-            <!-- Sidebar -->
-            <aside class="w-64 bg-white shadow-lg">
-                <div class="p-6">
-                    <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <a href="/dashboardBusinesman" class="text-gray-600">
-                            <li
-                                class="p-4
-                                {{ request()->is('dashboardBusinesman') ? 'bg-gray-200' : 'text-gray-600' }}
-                                hover:bg-gray-200">
-                                Tambah Lowongan Bisnis</li>
-                        </a>
-                        <a href="/tutupBukaLowonganBisnis" class="text-gray-600">
-                            <li class="p-4 hover:bg-gray-200">Manage Lowongan Bisnis</li>
-                        </a>
-                        <a href="/manageProfilPerusahaanBusinesman" class="text-gray-600">
-                            <li class="p-4 hover:bg-gray-200">Manage Profil Perusahaan</li>
-                        </a>
-                    </ul>
-                </nav>
-            </aside>
+           <x-dashboard></x-dashboard>
 
-            <!-- Main Content -->
 
 
             <!-- Modal Tambah Lowongan -->

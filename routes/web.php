@@ -84,6 +84,14 @@ Route::get('/tutupBukaLowonganBisnis', function () {
     return view('tutupBukaLowonganBisnis');
 });
 
+Route::get('/listPermintaanBergabung', function () {
+    return view('listPermintaanBergabung');
+});
+
+Route::get('/listUserBergabung', function () {
+    return view('listUserBergabung');
+});
+
 Route::get('/profilePerusahaan/{id}',[PerusahaanController::class,'profilPerusahaan']);
 
 Route::get('/tambahLowonganBisnis', function () {
