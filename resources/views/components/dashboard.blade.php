@@ -11,9 +11,9 @@
                     Tambah Lowongan Bisnis
                 </li>
             </a>
-            <a href="/tutupBukaLowonganBisnis" class="text-gray-600">
+            <a href="/manageLowongan" class="text-gray-600">
                 <li
-                    class="p-4 {{ request()->is('tutupBukaLowonganBisnis') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
+                    class="p-4 {{ request()->is('manageLowongan') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
                     Manage Lowongan Bisnis</li>
             </a>
             <a href="/listPermintaanBergabung" class="text-gray-600">

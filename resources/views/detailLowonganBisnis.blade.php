@@ -42,12 +42,19 @@
 
             <!-- Tombol aksi -->
             <div class="flex space-x-4">
-                <button
+                <button 
                     class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"
                     onclick="openModal()">Berbisnis
                     Sekarang</button>
-                <button
-                    class="bg-sky-50 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-100  active:scale-95 transition duration-300">Simpan</button>
+
+                    {{-- <form action="{{ route('verifikasiLowongan.Store',['id'=> $detailLowongan->id] ) }}" method="POST">
+                        @csrf --}}
+
+                    <form action="{{ route('wishlist',['id'=>$detailLowongan->id]) }} " method="POST">
+                        @csrf
+                        <button
+                            class="bg-sky-50 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-100  active:scale-95 transition duration-300" type="submit">Simpan</button>
+                    </form>
             </div>
 
             <!-- Kualifikasi -->
@@ -90,12 +97,13 @@
                     </button>
                 </div>
                 <!-- Isi Modal -->
-                <form>
+                <form action="{{ route('verifikasiLowongan.Store',['id'=> $detailLowongan->id] ) }}" method="POST">
+                    @csrf
                     <div class="mb-4">
                         <label for="modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha yang
                             Ditawarkan</label>
                         <input type="number" id="modal_usaha" name="modal_usaha"
-                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1">
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1" required>
                     </div>
                     <!-- Tombol Modal -->
                     <div class="flex justify-end space-x-4">

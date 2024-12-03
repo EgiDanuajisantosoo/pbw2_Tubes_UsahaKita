@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('perusahaan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained(
-                table: 'users', indexName: 'posts_user_id'
+                table: 'users', indexName: 'perusahaan_user_id'
             );
             
             // $table->unsignedInteger('user_id');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('kecamatan');
             $table->string('kelurahan');
             $table->string('alamat_lengkap');
-            $table->enum('status',['terverifikasi','pendding'])->default('pendding');
+            $table->enum('status',['terverifikasi','pendding','ditolak'])->default('pendding');
             $table->string('alasan')->nullable();
             $table->timestamps();
         });

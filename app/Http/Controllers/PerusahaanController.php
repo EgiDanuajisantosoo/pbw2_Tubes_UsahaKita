@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BergabungPerusahaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
+use App\Models\User;
 use App\Models\Lowongan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -24,16 +26,16 @@ class PerusahaanController extends Controller
                 ->groupBy('perusahaan.id', 'perusahaan.nama_perusahaan', 'perusahaan.provinsi')
                 ->paginate(10);
 
-                $count = Perusahaan::leftJoin('lowongan', 'perusahaan.id', '=', 'lowongan.perusahaan_id')
+            $count = Perusahaan::leftJoin('lowongan', 'perusahaan.id', '=', 'lowongan.perusahaan_id')
                 ->select(
-                    'perusahaan.foto_perusahaan', 
+                    'perusahaan.foto_perusahaan',
                     DB::raw('SUM(lowongan.jumlah_lowongan) as total_lowongan')
                 )
                 ->where('perusahaan.nama_perusahaan', 'LIKE', "%{$query}%")
                 ->orWhere('perusahaan.provinsi', 'LIKE', "%{$query}%")
                 ->groupBy('perusahaan.foto_perusahaan') // Tambahkan GROUP BY untuk kolom non-agregat
                 ->first();
-            
+
             // dd($count->foto_perusahaan);
         } else {
             $perusahaan = Perusahaan::with(['lowongan' => function ($query) {
@@ -91,7 +93,7 @@ class PerusahaanController extends Controller
         return redirect(route('perusahaan', absolute: false));
     }
 
-    public function editProfil(Request $request,$id)
+    public function editProfil(Request $request, $id)
     {
 
         return view('manageProfilPerusahaanBusinesman');
@@ -104,10 +106,20 @@ class PerusahaanController extends Controller
         return view('profilePerusahaanPartner', compact('data', 'lowongan'));
     }
 
-    public function manageProfil(){
+    public function manageProfil()
+    {
         $idUser = Auth::id();
-        $dataPerusahaan = Perusahaan::with('kategori_bisnis','lowongan')->find($idUser);
+        $dataPerusahaan = Perusahaan::with('kategori_bisnis', 'lowongan')->find($idUser);
         // dd($dataPerusahaan);
-        return view('manageProfilPerusahaanBusinesman',compact('dataPerusahaan'));
+        return view('manageProfilPerusahaanBusinesman', compact('dataPerusahaan'));
+    }
+
+    public function listPermintaan()
+    {
+        $listBergabung = BergabungPerusahaan::whereHas('lowongan.perusahaan', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->with('lowongan.user')->get();        
+
+        return view('listPermintaanBergabung', compact('listBergabung'));
     }
 }

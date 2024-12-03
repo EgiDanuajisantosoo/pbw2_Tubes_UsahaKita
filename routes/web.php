@@ -8,6 +8,10 @@ use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\pickRoleController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\profileUserController;
+
+
 
 Route::get('/searchLowongan', [LowonganController::class, 'index'])->name('search.lowongan');
 Route::get('/searchPerusahaan', [PerusahaanController::class, 'index'])->name('search.perusahaan');
@@ -29,9 +33,13 @@ Route::post('/pilihRole', [pickRoleController::class, 'store'])->name('pickRole'
 Route::get('/', function () {
     return view('homePage');
 });
-Route::get('/profile', function () {
-    return view('profile');
-});
+// Route::get('/profile', function () {
+//     return view('profile');
+// });
+
+Route::get('/profile/edit', [profileUserController::class, 'create'])->name('profileUser.create');
+Route::post('/profile/edit/{id}', [profileUserController::class, 'edit'])->name('profileUser.edit');
+Route::get('/profile/{id}', [profileUserController::class, 'index'])->name('profileUser.index');
 
 Route::get('/lowonganBisnis', function () {
     return view('lowonganBisnis');
@@ -85,9 +93,11 @@ Route::get('/editLowonganBisnis', function () {
 route::put('/updateLowonganStatus/{id}',[LowonganController::class,'updateLowonganStatus'])->name('updateLowonganStatus');
 route::get('/manageLowongan',[LowonganController::class,'manageLowongan']);
 
-Route::get('/listPermintaanBergabung', function () {
-    return view('listPermintaanBergabung');
+Route::get('/editProfileUser', function () {
+    return view('editProfileUser');
 });
+
+Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
 
 Route::get('/listUserBergabung', function () {
     return view('listUserBergabung');
@@ -108,13 +118,15 @@ Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);
 Route::get('/api/regencies/{id}', [LokasiController::class, 'getRegencies']);
 Route::get('/api/districts/{id}', [LokasiController::class, 'getDistricts']);
 Route::get('/api/villages/{id}', [LokasiController::class, 'getVillages']);
-Route::get('/wishlist', function () {
-    return view('wishlist');
-});
+// Route::get('/wishlist', function () {
+//     return view('wishlist');
+// });
 
-Route::get('/verifikasiLowongan', function () {
-    return view('verifikasiLowongan');
-});
+Route::post('/wishlist/{id}', [LowonganController::class, 'wishlist'])->name('wishlist');
+
+Route::get('/wishlist', [LowonganController::class, 'showWishlist'])->name('showWishlist');
+
+
 
 Route::get('/listBisnisPartner', function () {
     return view('listBisnisPartner');
@@ -124,4 +136,8 @@ Route::get('/settingAkun', function () {
     return view('settingAkun');
 });
 
+
+Route::get('/verifikasiLowongan', [VerifikasiController::class, 'index'])->name('verifikasiLowongan');
+
+Route::post('/verifikasiLowongan/{id}',[VerifikasiController::class, 'store'])->name('verifikasiLowongan.Store');
 

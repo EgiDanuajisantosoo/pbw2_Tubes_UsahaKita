@@ -29,7 +29,7 @@
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     @if (Auth::check())
-                        <li><a href="/profile"
+                        <li><a href="/profile/{{ Auth::id() }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Profile</a>
                         </li>
                     @endif

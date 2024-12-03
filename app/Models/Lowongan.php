@@ -43,4 +43,9 @@ class Lowongan extends Model
         return $this->belongsToMany(TagSpesifikasi::class, 'tagspesifikasi_lowongan', 'lowongan_id', 'tag_id')
             ->withTimestamps();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

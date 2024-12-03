@@ -7,6 +7,7 @@ use App\Models\Lowongan;
 use App\Models\TagSpesifikasiLowongan;
 use App\Models\User;
 use App\Models\Perusahaan;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -17,23 +18,23 @@ class LowonganController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    Carbon::setLocale('id');
-    if ($request->input('query')) {
-        $query = $request->input('query');
-        $lowongan = Lowongan::where('nama_lowongan', 'LIKE', "%{$query}%")
-            ->orWhere('provinsi', 'LIKE', "%{$query}%")
-            ->where('status', 'buka')
-            ->paginate(10);
-    } else {
-        $lowongan = Lowongan::where('status', 'buka')
-            ->with('tags', 'perusahaan')
-            ->orderBy('id', 'asc')
-            ->latest()
-            ->paginate(10);
+    {
+        Carbon::setLocale('id');
+        if ($request->input('query')) {
+            $query = $request->input('query');
+            $lowongan = Lowongan::where('nama_lowongan', 'LIKE', "%{$query}%")
+                ->orWhere('provinsi', 'LIKE', "%{$query}%")
+                ->where('status', 'buka')
+                ->paginate(10);
+        } else {
+            $lowongan = Lowongan::where('status', 'buka')
+                ->with('tags', 'perusahaan')
+                ->orderBy('id', 'asc')
+                ->latest()
+                ->paginate(10);
+        }
+        return view('lowonganBisnis', compact('lowongan'));
     }
-    return view('lowonganBisnis', compact('lowongan'));
-}
 
 
     /**
@@ -107,6 +108,28 @@ class LowonganController extends Controller
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);
         return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray'));
+    }
+
+    public function wishlist($id)
+    {
+        $idUser = User::find(Auth::id(), 'id');
+        // dd($idUser->id);
+        $wishlist = Wishlist::create([
+            'user_id' => $idUser->id,
+            'lowongan_id' => $id,
+        ]);
+
+        return redirect('/detailLowonganBisnis/' . $id);
+    }
+
+
+    public function showWishlist()
+    {
+        $idUser = Auth::id();
+        // $detailWishlist = Wishlist::with('lowongan')->find($idUser);
+        $detailWishlist = Wishlist::where('user_id', $idUser)->with('lowongan.perusahaan')->get();
+        // dd($detailWishlist->all());
+        return view('wishlist', compact('detailWishlist'));
     }
 
     /**
@@ -195,14 +218,14 @@ class LowonganController extends Controller
         return view('tutupBukaLowonganBisnis', compact('dataLowongan'));
     }
 
-    public function updateLowonganStatus(Request $request,$id)
+    public function updateLowonganStatus(Request $request, $id)
     {
-        
-        
+
+
         $lowongan = Lowongan::findOrFail($id);
         if ($request->input('tutup')) {
             $lowongan->status = 'tutup';
-        }else if ($request->input('buka')) {
+        } else if ($request->input('buka')) {
             $lowongan->status = 'buka';
         }
 

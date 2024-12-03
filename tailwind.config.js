@@ -11,14 +11,22 @@ export default {
         './resources//*.js',
         './resources//*.vue',
         "./node_modules/flowbite//*.js"
-
     ],
+
+    darkMode: 'class',  
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            screens: {
+                xs: '320px',  // Menambahkan breakpoint xs
+                sm: '480px',  // Menambahkan breakpoint sm
+                md: '768px',  // Menambahkan breakpoint md
+                lg: '976px',  // Menambahkan breakpoint lg
+                xl: '1440px', // Menambahkan breakpoint xl
+            }
         },
     },
 

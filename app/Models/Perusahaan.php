@@ -41,8 +41,8 @@ class Perusahaan extends Model
         return $this->hasMany(Lowongan::class, 'perusahaan_id');
     }
 
-    public function bergabungPerusahaan()
-    {
-        return $this->hasMany(BergabungPerusahaan::class, 'perusahaan_id');
-    }
+    // public function bergabungPerusahaan()
+    // {
+    //     return $this->hasMany(BergabungPerusahaan::class, 'perusahaan_id');
+    // }
 }

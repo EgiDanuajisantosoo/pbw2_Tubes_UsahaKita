@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(BergabungPerusahaan::class, 'user_id');
     }
+
+    public function lowongan()
+    {
+        return $this->hasManyThrough(Lowongan::class, Perusahaan::class, 'user_id', 'perusahaan_id', 'id', 'id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(ProfileUser::class, 'user_id', 'id');
+    }
 }

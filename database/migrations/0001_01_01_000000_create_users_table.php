@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama_depan');
             $table->string('nama_belakang');
-            $table->string('alamat')->nullable();
-            $table->string('no_telp')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('jenis_kelamin',['Pria','Wanita'])->nullable();
             $table->foreignId('role')->nullable()->default(3)->constrained('role', 'id')->index('posts_role_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
