@@ -85,6 +85,14 @@ Route::get('/editLowonganBisnis', function () {
 route::put('/updateLowonganStatus/{id}',[LowonganController::class,'updateLowonganStatus'])->name('updateLowonganStatus');
 route::get('/manageLowongan',[LowonganController::class,'manageLowongan']);
 
+Route::get('/listPermintaanBergabung', function () {
+    return view('listPermintaanBergabung');
+});
+
+Route::get('/listUserBergabung', function () {
+    return view('listUserBergabung');
+});
+
 Route::get('/profilePerusahaan/{id}',[PerusahaanController::class,'profilPerusahaan']);
 
 Route::get('/tambahLowonganBisnis', function () {

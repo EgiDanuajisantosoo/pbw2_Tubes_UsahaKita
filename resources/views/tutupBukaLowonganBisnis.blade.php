@@ -3,26 +3,7 @@
     <x-slot:content>
         <!-- Sidebar -->
         <div class="flex min-h-screen bg-gray-100">
-            <aside class="w-64 bg-white shadow-lg">
-                <div class="p-6">
-                    <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <a href="/dashboardBusinesman" class="text-gray-600">
-                            <li class="p-4 hover:bg-gray-200">Tambah Lowongan Bisnis</li>
-                        </a>
-                        <a href="/manageLowongan" class="text-gray-600">
-                            <li
-                                class="p-4 {{ request()->is('manageLowongan') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
-                                Manage Lowongan Bisnis</li>
-                        </a>
-                        <a href="/manageProfilPerusahaanBusinesman" class="text-gray-600">
-                            <li class="p-4 hover:bg-gray-200">Manage Profil Perusahaan</li>
-                        </a>
-                    </ul>
-                </nav>
-            </aside>
+        <x-dashboard></x-dashboard>
 
             <main class="flex-1 p-6">
                 <div class="bg-white p-6 rounded-lg shadow">
@@ -35,12 +16,12 @@
                         <table class="table-auto w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-200">
-                                    <th class="border px-4 py-2 w-16">NO</th>
-                                    <th class="border px-4 py-2 w-48">Judul</th>
-                                    <th class="border px-4 py-2 w-32">Jumlah Lowongan</th>
-                                    <th class="border px-4 py-2 w-32">Lokasi</th>
-                                    <th class="border px-4 py-2 w-16">Status</th>
-                                    <th class="border px-4 py-2 w-48">Aksi</th>
+                                    <th class="border px-4 py-2 w-16 text-center">NO</th>
+                                    <th class="border px-4 py-2 w-48 text-center">Judul</th>
+                                    <th class="border px-4 py-2 w-32 text-center">Jumlah Lowongan</th>
+                                    <th class="border px-4 py-2 w-32 text-center">Lokasi</th>
+                                    <th class="border px-4 py-2 w-16 text-center">Status</th>
+                                    <th class="border px-4 py-2 w-48 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

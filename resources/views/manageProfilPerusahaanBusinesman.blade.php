@@ -2,33 +2,7 @@
     <x-slot:title>Manage Perusahaan</x-slot:title>
     <x-slot:content>
         <div class="flex min-h-screen bg-gray-100 ">
-            <!-- Sidebar -->
-            <aside class="w-64 bg-white shadow-lg">
-                <div class="p-6">
-                    <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <a href="/dashboardBusinesman" class="text-gray-600">
-                            <li
-                                class="p-4 {{ request()->is('dashboardBusinesman') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
-                                Tambah Lowongan Bisnis
-                            </li>
-                        </a>
-                        <a href="/manageLowongan" class="text-gray-600">
-                            <li
-                                class="p-4 {{ request()->is('manageLowongan') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
-                                Manage Lowongan Bisnis</li>
-                        </a>
-                        <a href="/manageProfilPerusahaanBusinesman" class="text-gray-600">
-                            <li
-                                class="p-4 {{ request()->is('manageProfilPerusahaanBusinesman') ? 'bg-gray-200' : 'text-gray-600' }} hover:bg-gray-200">
-                                Manage Profil Perusahaan
-                            </li>
-                        </a>
-                    </ul>
-                </nav>
-            </aside>
+           <x-dashboard></x-dashboard>
 
             <!-- Profile Section -->
             <div class="flex-1 p-5 ">

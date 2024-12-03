@@ -43,7 +43,8 @@
             <!-- Tombol aksi -->
             <div class="flex space-x-4">
                 <button
-                    class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300">Berbisnis
+                    class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"
+                    onclick="openModal()">Berbisnis
                     Sekarang</button>
                 <button
                     class="bg-sky-50 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-100  active:scale-95 transition duration-300">Simpan</button>
@@ -78,6 +79,47 @@
             </div>
         </div>
 
+        <!-- Modal -->
+        <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+                <!-- Header Modal -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Masukkan Modal Usaha</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        &times;
+                    </button>
+                </div>
+                <!-- Isi Modal -->
+                <form>
+                    <div class="mb-4">
+                        <label for="modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha yang
+                            Ditawarkan</label>
+                        <input type="number" id="modal_usaha" name="modal_usaha"
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1">
+                    </div>
+                    <!-- Tombol Modal -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" onclick="closeModal()"
+                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Batal</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Kirim</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
     </x-slot:content>
 </x-layout>
+
+<script>
+    function openModal() {
+        document.getElementById('modal').classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+</script>
