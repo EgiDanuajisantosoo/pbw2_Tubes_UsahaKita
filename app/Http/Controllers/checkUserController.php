@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriBisnis;
 use App\Models\Perusahaan;
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
@@ -17,13 +18,12 @@ class checkUserController extends Controller
 
         $user = User::where('email', $email)->first();
         $role = $user->role;
-        $lowongan = Lowongan::with('tags','perusahaan')->orderBy('id', 'asc')->latest()->paginate(10);
+        $kategori = KategoriBisnis::all();
 
         if (Perusahaan::where('user_id', $userId)->exists() && $role == 2 || $role == 3) {
-            // return view('lowonganBisnis',compact('lowongan'));
             return redirect('/lowonganBisnis');
         }else {
-            return view('form.register-perusahaan', ['error' => 'Data tidak ditemukan atau role tidak sesuai']);
+            return view('form.register-perusahaan', compact('kategori'));
         }
         
     }

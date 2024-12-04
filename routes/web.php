@@ -26,38 +26,20 @@ Route::get('/dashboard', function () {
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-Route::get('/pilihRole', [pickRoleController::class, 'index'])->name('pilihRole');
-Route::post('/pilihRole', [pickRoleController::class, 'store'])->name('pickRole');
-
 Route::get('/', function () {
     return view('homePage');
 });
-// Route::get('/profile', function () {
-//     return view('profile');
-// });
-
-Route::get('/profile/edit', [profileUserController::class, 'create'])->name('profileUser.create');
-Route::post('/profile/edit/{id}', [profileUserController::class, 'edit'])->name('profileUser.edit');
-Route::get('/profile/{id}', [profileUserController::class, 'index'])->name('profileUser.index');
-
-Route::get('/lowonganBisnis', function () {
-    return view('lowonganBisnis');
-})->name('lowonganBisnis');
-
-
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 });
+Route::get('/listBisnisPartner', function () {
+    return view('listBisnisPartner');
+});
 
-Route::get('/lowonganBisnis',[LowonganController::class, 'index'])->name('lowongan.index');
-Route::get('/dashboardBusinesman',[LowonganController::class, 'create'])->name('lowongan.create');
-Route::put('/dashboardBusinesman/{id}',[LowonganController::class, 'update'])->name('lowongan.update');
-Route::post('/tambahLowongan',[LowonganController::class, 'store'])->name('tambah.lowongan');
-Route::delete('/deleteLowongan/{id}',[LowonganController::class, 'destroy'])->name('lowongan.destroy');
+Route::get('/settingAkun', function () {
+    return view('settingAkun');
+});
 
-Route::get('/manageProfilPerusahaanBusinesman',[PerusahaanController::class, 'manageProfil'])->name('manageProfile');
-Route::put('/editProfilPerusahaanBusinesman',[PerusahaanController::class, 'editProfil'])->name('editProfile');
 Route::get('/form', function () {
     return view('form.register-perusahaan');
 });
@@ -66,13 +48,9 @@ Route::get('/pemilihanRole', function () {
     return view('form.pemilihanRole');
 });
 
-Route::get('/detailLowonganBisnis/{id}', [LowonganController::class,'show']);
-
-Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
-Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
-
-require __DIR__.'/auth.php';
-
+Route::get('/lowonganBisnis', function () {
+    return view('lowonganBisnis');
+})->name('lowonganBisnis');
 
 Route::get('/editProfilePerusahaan', function () {
     return view('form.editProfilePerusahaan');
@@ -86,58 +64,57 @@ Route::get('/editLowonganBisnis', function () {
     return view('form.editLowonganBisnis');
 });
 
-// Route::get('/manageLowongan', function () {
-//     return view('tutupBukaLowonganBisnis');
-// });
-
-route::put('/updateLowonganStatus/{id}',[LowonganController::class,'updateLowonganStatus'])->name('updateLowonganStatus');
-route::get('/manageLowongan',[LowonganController::class,'manageLowongan']);
-
 Route::get('/editProfileUser', function () {
     return view('editProfileUser');
 });
 
-Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
-
 Route::get('/listUserBergabung', function () {
     return view('listUserBergabung');
 });
-
-Route::get('/profilePerusahaan/{id}',[PerusahaanController::class,'profilPerusahaan']);
 
 Route::get('/tambahLowonganBisnis', function () {
     return view('form.tambahLowonganBisnis');
 });
 
 
-//Route API Lokasi
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+Route::get('/pilihRole', [pickRoleController::class, 'index'])->name('pilihRole');
+Route::post('/pilihRole', [pickRoleController::class, 'store'])->name('pickRole');
+
+
+Route::get('/profile/edit', [profileUserController::class, 'create'])->name('profileUser.create');
+Route::post('/profile/edit/{id}', [profileUserController::class, 'edit'])->name('profileUser.edit');
+Route::get('/profile/{id}', [profileUserController::class, 'index'])->name('profileUser.index');
+
+Route::get('/lowonganBisnis',[LowonganController::class, 'index'])->name('lowongan.index');
+Route::get('/dashboardBusinesman',[LowonganController::class, 'create'])->name('lowongan.create');
+Route::put('/dashboardBusinesman/{id}',[LowonganController::class, 'update'])->name('lowongan.update');
+Route::post('/tambahLowongan',[LowonganController::class, 'store'])->name('tambah.lowongan');
+Route::delete('/deleteLowongan/{id}',[LowonganController::class, 'destroy'])->name('lowongan.destroy');
+Route::get('/detailLowonganBisnis/{id}', [LowonganController::class,'show']);
+route::put('/updateLowonganStatus/{id}',[LowonganController::class,'updateLowonganStatus'])->name('updateLowonganStatus');
+route::get('/manageLowongan',[LowonganController::class,'manageLowongan']);
+
+Route::get('/manageProfilPerusahaanBusinesman',[PerusahaanController::class, 'manageProfil'])->name('manageProfile');
+Route::put('/editProfilPerusahaanBusinesman',[PerusahaanController::class, 'editProfil'])->name('editProfile');
+Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
+Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
+Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
+Route::get('/profilePerusahaan/{id}',[PerusahaanController::class,'profilPerusahaan']);
+
 Route::get('/checkUser', [checkUserController::class, 'index'])->name('checkUser');
-// Route::get('/wilayah', [checkUserController::class, 'index']);
-// Route::post('/wilayah', [checkUserController::class, 'store']);
+
+Route::post('/wishlist/{id}', [LowonganController::class, 'wishlist'])->name('wishlist');
+Route::get('/wishlist', [LowonganController::class, 'showWishlist'])->name('showWishlist');
+
+Route::get('/verifikasiLowongan', [VerifikasiController::class, 'index'])->name('verifikasiLowongan');
+Route::post('/verifikasiLowongan/{id}',[VerifikasiController::class, 'store'])->name('verifikasiLowongan.Store');
+
+//Route API Lokasi
 Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);
 Route::get('/api/regencies/{id}', [LokasiController::class, 'getRegencies']);
 Route::get('/api/districts/{id}', [LokasiController::class, 'getDistricts']);
 Route::get('/api/villages/{id}', [LokasiController::class, 'getVillages']);
-// Route::get('/wishlist', function () {
-//     return view('wishlist');
-// });
 
-Route::post('/wishlist/{id}', [LowonganController::class, 'wishlist'])->name('wishlist');
-
-Route::get('/wishlist', [LowonganController::class, 'showWishlist'])->name('showWishlist');
-
-
-
-Route::get('/listBisnisPartner', function () {
-    return view('listBisnisPartner');
-});
-
-Route::get('/settingAkun', function () {
-    return view('settingAkun');
-});
-
-
-Route::get('/verifikasiLowongan', [VerifikasiController::class, 'index'])->name('verifikasiLowongan');
-
-Route::post('/verifikasiLowongan/{id}',[VerifikasiController::class, 'store'])->name('verifikasiLowongan.Store');
-
+require __DIR__.'/auth.php';

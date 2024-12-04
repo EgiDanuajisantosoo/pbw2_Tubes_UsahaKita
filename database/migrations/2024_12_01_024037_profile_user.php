@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('keahlian');
             $table->string('pengalaman');
             $table->string('pendidikan');
+            $table->string('sertifikasi');
             $table->enum('jenis_kelamin',['Pria','Wanita']);
             $table->timestamps();
         });

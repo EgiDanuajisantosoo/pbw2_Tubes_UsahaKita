@@ -22,9 +22,11 @@ class LowonganController extends Controller
         Carbon::setLocale('id');
         if ($request->input('query')) {
             $query = $request->input('query');
-            $lowongan = Lowongan::where('nama_lowongan', 'LIKE', "%{$query}%")
-                ->orWhere('provinsi', 'LIKE', "%{$query}%")
-                ->where('status', 'buka')
+            $lowongan = Lowongan::where('status', 'buka') // Status harus 'buka'
+                ->where(function ($q) use ($query) { // Group kondisi pencarian
+                    $q->where('nama_lowongan', 'LIKE', "%{$query}%")
+                        ->orWhere('provinsi', 'LIKE', "%{$query}%");
+                })
                 ->paginate(10);
         } else {
             $lowongan = Lowongan::where('status', 'buka')
@@ -59,7 +61,7 @@ class LowonganController extends Controller
         $validated = $request->validate([
             'nama_lowongan' => 'required|string|max:255',
             'jumlah' => 'required|integer|min:1',
-            'modal_usaha' => 'required|integer|min:1',
+            'modal_usaha' => 'required|string|min:7',
             'requirement' => 'required|string|max:1000',
             'benefit' => 'nullable|string|max:500',
             'provinsi' => ['required', 'string', 'max:255'],

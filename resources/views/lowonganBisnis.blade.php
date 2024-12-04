@@ -65,8 +65,8 @@
                             <div class="bg-white border rounded-lg shadow-md p-4 relative">
                                 <div class="flex justify-between items-start">
                                     <h3 class="text-lg font-semibold">{{ $lowongans->nama_lowongan }}</h3>
-                                    <span class="text-blue-600 font-semibold">Rp
-                                        {{ number_format($lowongans->modal_usaha, 0, ',', '.') }}</span>
+                                    <span class="text-blue-600 font-semibold">
+                                        {{ $lowongans->modal_usaha }}</span>
                                 </div>
                                 <div class="mt-2 flex flex-wrap gap-2">
                                     @forelse ($lowongans->tags as $no=>$tag)

@@ -20,6 +20,7 @@ class ProfileUser extends Model
         'keahlian',
         'pengalaman',
         'pendidikan',
+        'sertifikasi',
         'jenis_kelamin'
     ];
     public function user()
