@@ -106,10 +106,12 @@ class LowonganController extends Controller
     public function show(string $id)
     {
         Carbon::setLocale('id');
-        $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis')->find($id);
+        $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis','wishlist')->find($id);
+        $wishlist = Wishlist::where('user_id',Auth::id())->count();
+        // dd($wishlist);
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);
-        return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray'));
+        return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray','wishlist'));
     }
 
     public function wishlist($id)
