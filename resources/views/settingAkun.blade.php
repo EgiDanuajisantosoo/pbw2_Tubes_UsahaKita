@@ -17,7 +17,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Email</p>
-                        <p class="text-gray-800 font-medium">anu@gmail.com</p>
+                        <p class="text-gray-800 font-medium">{{ $dataUser->email }}</p>
                     </div>
                     <button class="text-blue-600 text-sm font-medium hover:text-blue-700" onClick="openModalEmail()">Edit</button>
                 </div>
@@ -45,7 +45,8 @@
 
         {{-- Modal EMail --}}
         <div id="modalEmail" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <form action="#" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+            <form action="{{ route('ganti.email') }}" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+                @csrf
                 <div class="flex justify-between">
                     <h1>Edit Email</h1>
                     <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalEmail()" >
@@ -53,15 +54,7 @@
                     </button>
                 </div>
                 <div>
-                    <input type="text" name="company_name" placeholder="Email"
-                        class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <input type="text" name="company_name" placeholder="Konfirmasi Email"
-                        class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <input type="text" name="company_name" placeholder="Password"
+                    <input type="email" name="email" placeholder="Email Baru"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="flex justify-end gap-5">

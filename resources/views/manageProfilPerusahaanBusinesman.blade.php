@@ -2,7 +2,7 @@
     <x-slot:title>Manage Perusahaan</x-slot:title>
     <x-slot:content>
         <div class="flex min-h-screen bg-gray-100 ">
-           <x-dashboard></x-dashboard>
+            <x-dashboard></x-dashboard>
 
             <!-- Profile Section -->
             <div class="flex-1 p-5 ">
@@ -41,13 +41,16 @@
                                 <h2 class="text-3xl font-semibold text-gray-800 mb-6">Edit Profil Perusahaan</h2>
 
                                 <!-- Form Edit Profile Perusahaan -->
-                                <form action="{{ route('editProfile') }}" method="POST" class="space-y-6">
+                                <form action="{{ route('editProfile',['id' => 1]) }}" method="POST" class="space-y-6">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <!-- Nama Perusahaan -->
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Nama
                                                 Perusahaan</label>
-                                            <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan" value="{{ $dataPerusahaan->nama_perusahaan }}"
+                                            <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan"
+                                                value="{{ $dataPerusahaan->nama_perusahaan }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
@@ -55,7 +58,8 @@
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Nama Pemilik
                                                 Perusahaan</label>
-                                            <input type="text" name="pemilik_perusahaan" placeholder="Nama Pemilik" value="{{ $dataPerusahaan->pemilik_perusahaan }}"
+                                            <input type="text" name="pemilik_perusahaan" placeholder="Nama Pemilik"
+                                                value="{{ $dataPerusahaan->pemilik_perusahaan }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
@@ -80,20 +84,24 @@
                                         <!-- Email -->
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Email</label>
-                                            <input type="email" name="email_perusahaan" placeholder="Email Perusahaan" value="{{ $dataPerusahaan->email_perusahaan }}"
+                                            <input type="email" name="email_perusahaan" placeholder="Email Perusahaan"
+                                                value="{{ $dataPerusahaan->email_perusahaan }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
                                         <!-- Phone -->
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Phone</label>
-                                            <input type="text" name="no_telp" placeholder="Nomor Telepon Perusahaan" value="{{ $dataPerusahaan->no_telp }}"
+                                            <input type="text" name="no_telp" placeholder="Nomor Telepon Perusahaan"
+                                                value="{{ $dataPerusahaan->no_telp }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
                                         <div>
-                                            <label class="block text-gray-700 font-semibold mb-2">Website Perusahaan</label>
-                                            <input type="text" name="no_telp" placeholder="Nomor Telepon Perusahaan" value="{{ $dataPerusahaan->website_perusahaan }}"
+                                            <label class="block text-gray-700 font-semibold mb-2">Website
+                                                Perusahaan</label>
+                                            <input type="text" name="no_telp" placeholder="Nomor Telepon Perusahaan"
+                                                value="{{ $dataPerusahaan->website_perusahaan }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
