@@ -136,6 +136,12 @@ class LowonganController extends Controller
         return view('wishlist', compact('detailWishlist'));
     }
 
+
+    public function deleteWishlist($id){
+        Wishlist::findOrFail($id)->delete();
+        return redirect(route('showWishlist'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

@@ -33,6 +33,16 @@ class VerifikasiController extends Controller
     }
 
 
+    public function terima($id){
+        BergabungPerusahaan::where('id',$id)->update(['status_permintaan' => 'diterima']);
+        return redirect()->route('listPermintaan');
+    }
+
+    public function tolak($id){
+        BergabungPerusahaan::where('id',$id)->update(['status_permintaan' => 'ditolak']);
+        return redirect()->route('listPermintaan');
+    }
+
 
 
 

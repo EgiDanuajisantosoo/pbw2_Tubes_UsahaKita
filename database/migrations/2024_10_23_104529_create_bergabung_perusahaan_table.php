@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('lowongan_id');
             $table->bigInteger('modal_usaha');
-            $table->enum('status_permintaaan',['pendding','diterima','ditolak'])->default('pendding')->nullable();
+            $table->enum('status_permintaan',['pendding','diterima','ditolak'])->default('pendding')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('lowongan_id')->references('id')->on('lowongan')->onDelete('restrict');
             $table->timestamps();

@@ -110,7 +110,7 @@ class PerusahaanController extends Controller
     {
         $idUser = Auth::id();
         // $dataPerusahaan = Perusahaan::with('kategori_bisnis', 'lowongan')->find($idUser);
-        $dataPerusahaan = Perusahaan::where('user_id',$idUser)->with('kategori_bisnis','lowongan')->first();
+        $dataPerusahaan = Perusahaan::where('user_id', $idUser)->with('kategori_bisnis', 'lowongan')->first();
         // dd($dataPerusahaan);
         return view('manageProfilPerusahaanBusinesman', compact('dataPerusahaan'));
     }
@@ -118,9 +118,20 @@ class PerusahaanController extends Controller
     public function listPermintaan()
     {
         $listBergabung = BergabungPerusahaan::whereHas('lowongan.perusahaan', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->with('lowongan.user')->get();        
+            $query->where('user_id', Auth::id())
+                ->where('status_permintaan', 'pendding');
+        })->with('user')->get();
 
         return view('listPermintaanBergabung', compact('listBergabung'));
+    }
+
+    public function listUserBergabung()
+    {
+        $userBergabung = BergabungPerusahaan::whereHas('lowongan.perusahaan', function ($query) {
+            $query->where('user_id', Auth::id())
+                ->where('status_permintaan', 'diterima');
+        })->with('user')->get();
+
+        return view('listUserBergabung', compact('userBergabung'));
     }
 }

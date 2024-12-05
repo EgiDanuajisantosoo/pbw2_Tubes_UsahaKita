@@ -70,9 +70,9 @@ Route::get('/verifikasimail', function () {
     return view('form.emailVerifikasi');
 });
 
-Route::get('/listUserBergabung', function () {
-    return view('listUserBergabung');
-});
+// Route::get('/listUserBergabung', function () {
+//     return view('listUserBergabung');
+// });
 
 Route::get('/tambahLowonganBisnis', function () {
     return view('form.tambahLowonganBisnis');
@@ -127,9 +127,15 @@ Route::get('/checkUser', [checkUserController::class, 'index'])->name('checkUser
 
 Route::post('/wishlist/{id}', [LowonganController::class, 'wishlist'])->name('wishlist');
 Route::get('/wishlist', [LowonganController::class, 'showWishlist'])->name('showWishlist');
+Route::delete('/delete/wishlist/{id}', [LowonganController::class, 'deleteWishlist'])->name('delete.wishlist');
 
 Route::get('/verifikasiLowongan', [VerifikasiController::class, 'index'])->name('verifikasiLowongan');
 Route::post('/verifikasiLowongan/{id}', [VerifikasiController::class, 'store'])->name('verifikasiLowongan.Store');
+
+Route::put('/terima/{id}', [VerifikasiController::class, 'terima'])->name('terimaUser');
+Route::put('/tolak/{id}', [VerifikasiController::class, 'tolak'])->name('tolakUser');
+
+Route::get('/listUserBergabung',[PerusahaanController::class, 'listUserBergabung'])->name('listUserBergabung');
 
 //Route API Lokasi
 Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);
