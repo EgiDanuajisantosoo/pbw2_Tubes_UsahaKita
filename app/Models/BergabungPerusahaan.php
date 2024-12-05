@@ -12,7 +12,8 @@ class BergabungPerusahaan extends Model
     protected $fillable = [
         'user_id',
         'lowongan_id',
-        'modal_usaha'
+        'modal_usaha',
+        'status_permintaan',
     ];
 
     public function user()

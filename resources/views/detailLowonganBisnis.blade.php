@@ -42,19 +42,26 @@
 
             <!-- Tombol aksi -->
             @if (Auth::user()->role != 2)
-                
-            <div class="flex space-x-4">
-                <button 
-                    class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"
-                    onclick="openModal()">Berbisnis
-                    Sekarang</button>
+                <div class="flex space-x-4">
+                    <button
+                        class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"
+                        onclick="openModal()">Berbisnis
+                        Sekarang</button>
 
-                    <form action="{{ route('wishlist',['id'=>$detailLowongan->id]) }} " method="POST">
+                    <form action="{{ route('wishlist', ['id' => $detailLowongan->id]) }} " method="POST">
                         @csrf
-                        <button
-                            class="bg-sky-50 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-100  active:scale-95 transition duration-300" type="submit">Simpan</button>
+                        @if ($wishlist == 1)
+                            <button
+                                class="bg-emerald-100 text-green-800 font-semibold px-4 py-2 rounded hover:bg-emerald-200  active:scale-95 transition duration-300">
+                                Tersimpan</button>
+                        @else
+                            <button
+                                class="bg-sky-100 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-200  active:scale-95 transition duration-300"
+                                type="submit">Simpan</button>
+                        @endif
                     </form>
-            </div>
+
+                </div>
             @endif
 
             <!-- Kualifikasi -->
@@ -97,13 +104,14 @@
                     </button>
                 </div>
                 <!-- Isi Modal -->
-                <form action="{{ route('verifikasiLowongan.Store',['id'=> $detailLowongan->id] ) }}" method="POST">
+                <form action="{{ route('verifikasiLowongan.Store', ['id' => $detailLowongan->id]) }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha yang
                             Ditawarkan</label>
                         <input type="number" id="modal_usaha" name="modal_usaha"
-                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1" required>
+                            class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1"
+                            required>
                     </div>
                     <!-- Tombol Modal -->
                     <div class="flex justify-end space-x-4">

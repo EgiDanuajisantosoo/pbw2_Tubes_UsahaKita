@@ -256,15 +256,7 @@ Tidak ada data yang tersedia.
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Benefit</label>
-                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">
-@isset($benefitArray)
-@foreach ($benefitArray as $requirement)
-{{ $requirement }},
-@endforeach
-@else
-Tidak ada data yang tersedia.
-@endisset
-</textarea>
+                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">@isset($benefitArray)@foreach ($benefitArray as $requirement){{ $requirement }},@endforeach @else Tidak ada data yang tersedia.@endisset</textarea>
                                 </div>
                                 <div class="md:flex md:row md:space-x-4 w-full text-xs">
                                     <div class="w-full flex flex-col mb-3">
