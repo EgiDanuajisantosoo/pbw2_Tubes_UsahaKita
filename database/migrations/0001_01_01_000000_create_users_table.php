@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('nama_belakang');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('new_email')->nullable();
+            $table->string('verification_code')->nullable();
             $table->foreignId('role')->nullable()->default(3)->constrained('role', 'id')->index('posts_role_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

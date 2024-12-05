@@ -2,7 +2,7 @@
     <x-slot:title>dashboard</x-slot:title>
     <x-slot:content>
         <div x-data="{ openTambahLowongan: false, openEditLowongan: false, openDeleteModal: false, selectedLowongan: {} }" class="flex min-h-screen bg-gray-100">
-           <x-dashboard></x-dashboard>
+            <x-dashboard></x-dashboard>
 
 
 
@@ -27,16 +27,26 @@
                         </div>
                         <div>
                             <label class="block text-gray-700">Modal Usaha</label>
-                            <input type="number" name="modal_usaha" min="1" class="w-full p-2 border rounded">
+                            <input type="text" name="modal_usaha" min="1" id="rupiah"
+                                class="w-full p-2 border rounded">
                         </div>
-                        <div>
-                            <label class="block text-gray-700">Requirement</label>
-                            <textarea name="requirement" rows="3" class="w-full p-2 border rounded"></textarea>
+                        <div class="mb-4">
+                            <label for="requirement" class=" text-gray-700">
+                                Requirement <span class="text-xs text-gray-500">(pisahkan dengan ',')</span>
+                            </label>
+                            <textarea name="requirement" id="requirement" rows="3"
+                                class="w-full p-3 border border-black rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 resize-none"
+                                placeholder="Contoh: Gaji kompetitif, Asuransi kesehatan, Bonus tahunan"></textarea>
                         </div>
-                        <div>
-                            <label class="block text-gray-700">Benefit</label>
-                            <textarea name="benefit" rows="2" class="w-full p-2 border rounded"></textarea>
+                        <div class="mb-4">
+                            <label for="benefit" class=" text-gray-700">
+                                Benefit <span class="text-xs text-gray-500">(pisahkan dengan ',')</span>
+                            </label>
+                            <textarea name="benefit" id="benefit" rows="3"
+                                class="w-full p-3 border border-black rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 resize-none"
+                                placeholder="Contoh: Gaji kompetitif, Asuransi kesehatan, Bonus tahunan"></textarea>
                         </div>
+
                         <div class="md:flex md:row md:space-x-4 w-full text-xs">
                             <div class="w-full flex flex-col mb-3">
                                 <label class="font-semibold text-gray-600 py-2">Provinsi:<abbr
@@ -157,7 +167,7 @@
                                             @endforeach
                                         </td> --}}
                                         <td class="px-6 py-4 border-b">
-                                            {{ $lowongan->provinsi }},{{ $lowongan->kecamatan }},{{ $lowongan->kelurahan }},{{ $lowongan->kelurahan }}
+                                            {{ $lowongan->provinsi }},{{ $lowongan->kota }},{{ $lowongan->kelurahan }},{{ $lowongan->kelurahan }}
                                         </td>
 
                                         <td class="border px-4 py-2">
@@ -234,11 +244,27 @@
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Requirement</label>
-                                    <textarea name="requirement" rows="3" class="w-full p-2 border rounded">@isset($requirementsArray)@foreach ($requirementsArray as $requirement){{ $requirement }},@endforeach @else Tidak ada data yang tersedia.@endisset</textarea>
+                                    <textarea name="requirement" rows="3" class="w-full p-2 border rounded">
+@isset($requirementsArray)
+@foreach ($requirementsArray as $requirement)
+{{ $requirement }},
+@endforeach
+@else
+Tidak ada data yang tersedia.
+@endisset
+</textarea>
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Benefit</label>
-                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">@isset($benefitArray)@foreach ($benefitArray as $requirement){{ $requirement }},@endforeach @else Tidak ada data yang tersedia.@endisset</textarea>
+                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">
+@isset($benefitArray)
+@foreach ($benefitArray as $requirement)
+{{ $requirement }},
+@endforeach
+@else
+Tidak ada data yang tersedia.
+@endisset
+</textarea>
                                 </div>
                                 <div class="md:flex md:row md:space-x-4 w-full text-xs">
                                     <div class="w-full flex flex-col mb-3">
@@ -553,6 +579,32 @@
             function hapusLowongan(lowongan) {
                 // Simulasi aksi hapus, ganti dengan logika backend yang sesuai
                 alert(`Lowongan "${lowongan.judul}" telah dihapus!`);
+            }
+        </script>
+        <script>
+            var rupiah = document.getElementById("rupiah");
+            rupiah.addEventListener("keyup", function(e) {
+                // tambahkan 'Rp.' pada saat form di ketik
+                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                rupiah.value = formatRupiah(this.value, "Rp. ");
+            });
+
+            /* Fungsi formatRupiah */
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.replace(/[^,\d]/g, "").toString(),
+                    split = number_string.split(","),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                if (ribuan) {
+                    separator = sisa ? "." : "";
+                    rupiah += separator + ribuan.join(".");
+                }
+
+                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
             }
         </script>
 

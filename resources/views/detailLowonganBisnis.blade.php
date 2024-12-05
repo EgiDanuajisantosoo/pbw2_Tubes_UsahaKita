@@ -34,21 +34,20 @@
                     <svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                         <!-- Ikon gaji -->
                     </svg>
-                    Mulai Dari Rp {{ number_format($detailLowongan->modal_usaha, 0, ',', '.') }}
+                    Mulai Dari Rp {{ $detailLowongan->modal_usaha }}
                 </p>
             </div>
 
             <p class="text-sm text-gray-500 mb-4">Posted {{ $detailLowongan->created_at->diffForHumans() }}</p>
 
             <!-- Tombol aksi -->
+            @if (Auth::user()->role != 2)
+                
             <div class="flex space-x-4">
                 <button 
                     class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"
                     onclick="openModal()">Berbisnis
                     Sekarang</button>
-
-                    {{-- <form action="{{ route('verifikasiLowongan.Store',['id'=> $detailLowongan->id] ) }}" method="POST">
-                        @csrf --}}
 
                     <form action="{{ route('wishlist',['id'=>$detailLowongan->id]) }} " method="POST">
                         @csrf
@@ -56,6 +55,7 @@
                             class="bg-sky-50 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-100  active:scale-95 transition duration-300" type="submit">Simpan</button>
                     </form>
             </div>
+            @endif
 
             <!-- Kualifikasi -->
             <div class="mt-8">

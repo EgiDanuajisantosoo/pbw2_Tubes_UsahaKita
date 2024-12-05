@@ -56,16 +56,16 @@ class PerusahaanController extends Controller
             'email_perusahaan' => ['required', 'string', 'max:255'],
             'nama_perusahaan' => ['required', 'string', 'max:255'],
             'no_telp' => ['required', 'string', 'max:255'],
-            'website_perusahaan' => ['nullable', 'url', 'max:255'],
-            'provinsi' => ['required', 'string', 'max:255'],
-            'kota' => ['required', 'string', 'max:255'],
-            'kecamatan' => ['required', 'string', 'max:255'],
-            'kelurahan' => ['required', 'string', 'max:255'],
-            'alamat_lengkap' => ['required', 'string'],
+            'website_perusahaan' => ['nullable', 'url'],
+            'provinsi' => ['required', 'string'],
+            'kota' => ['required', 'string'],
+            'kecamatan' => ['required', 'string'],
+            'kelurahan' => ['required', 'string'],
+            'alamat_lengkap' => ['string'],
             'kategori' => ['required', 'int', 'max:2'],
             'foto_ktp' => ['required', 'image', 'max:2048'],
             'logo_perusahaan' => ['required', 'image', 'max:2048'],
-            'deskripsi' => ['string', 'max:255'],
+            'deskripsi' => ['string'],
         ]);
 
         $fotoKtpPath = $request->file('foto_ktp')->store('public/foto_ktp');
@@ -109,8 +109,8 @@ class PerusahaanController extends Controller
     public function manageProfil()
     {
         $idUser = Auth::id();
-        // $dataPerusahaan = Perusahaan::with('kategori_bisnis', 'lowongan')->find('user_id',$idUser);
-        $dataPerusahaan = Perusahaan::where('user_id' , $idUser)->with('kategori_bisnis', 'lowongan')->first();
+        // $dataPerusahaan = Perusahaan::with('kategori_bisnis', 'lowongan')->find($idUser);
+        $dataPerusahaan = Perusahaan::where('user_id',$idUser)->with('kategori_bisnis','lowongan')->first();
         // dd($dataPerusahaan);
         return view('manageProfilPerusahaanBusinesman', compact('dataPerusahaan'));
     }

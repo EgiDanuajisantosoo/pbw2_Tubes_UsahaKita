@@ -9,18 +9,34 @@ use Illuminate\Support\Facades\Auth;
 
 class profileUserController extends Controller
 {
-    public function index($id){
-        $profilUser = ProfileUser::where('user_id',Auth::id())->with('user')->first();
+    public function index($id)
+    {
+        $profilUser = ProfileUser::where('user_id', $id)->with('user')->first();
+        $namaUser = User::where('id' , $id)->first();
+
+        if ($profilUser == null) {
+            $PengalamanArray = [];
+            $KeahlianArray = [];
+            $PendidikanArray = [];
+            $SertifikasiArray = [];
+        } else {
+            $PengalamanArray = json_decode($profilUser->pengalaman, true) ?? [];
+            $KeahlianArray = json_decode($profilUser->keahlian, true) ?? [];
+            $PendidikanArray = json_decode($profilUser->pendidikan, true) ?? [];
+            $SertifikasiArray = json_decode($profilUser->sertifikasi, true) ?? [];
+        }
         // $checkProfile = ProfileUser::where('user_id',$id)->count();
         // dd($profilUser);
-        return view('profile',compact('profilUser'));
+        return view('profile', compact('profilUser', 'PengalamanArray', 'KeahlianArray', 'PendidikanArray', 'SertifikasiArray','namaUser'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('editProfileUser');
     }
 
-    public function edit(Request $request,$id){
+    public function edit(Request $request, $id)
+    {
         $idUser = Auth::user()->id;
         $request->validate([
             'profile' => 'required|image|max:2048',
@@ -80,7 +96,6 @@ class profileUserController extends Controller
             'kelurahan' => $request->kelurahan,
         ]);
 
-        return redirect('/profile/'.$idUser);
-
+        return redirect('/profile/' . $idUser);
     }
 }
