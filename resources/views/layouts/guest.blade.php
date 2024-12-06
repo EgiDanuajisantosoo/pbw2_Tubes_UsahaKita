@@ -20,8 +20,8 @@
     <div class="min-h-screen flex justify-center items-center ">
 
        <div class="h-screen w-screen ">
-        <img src="img/bg_Login3.jpg" class="w-screen h-screen"  alt="">
-        
+        <img src={{asset("img/bg_Login3.jpg")}} class="w-screen h-screen"  alt="">
+
        </div>
 
 
