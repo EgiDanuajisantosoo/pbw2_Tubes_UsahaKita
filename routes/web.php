@@ -136,6 +136,7 @@ Route::put('/terima/{id}', [VerifikasiController::class, 'terima'])->name('terim
 Route::put('/tolak/{id}', [VerifikasiController::class, 'tolak'])->name('tolakUser');
 
 Route::get('/listUserBergabung',[PerusahaanController::class, 'listUserBergabung'])->name('listUserBergabung');
+Route::delete('/deleteLowongan/{id}',[LowonganController::class, 'deleteLowongan'])->name('deleteLowongan');
 
 //Route API Lokasi
 Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);

@@ -106,12 +106,12 @@ class LowonganController extends Controller
     public function show(string $id)
     {
         Carbon::setLocale('id');
-        $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis','wishlist')->find($id);
-        $wishlist = Wishlist::where('user_id',Auth::id())->count();
+        $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis', 'wishlist')->find($id);
+        $wishlist = Wishlist::where('user_id', Auth::id())->count();
         // dd($wishlist);
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);
-        return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray','wishlist'));
+        return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray', 'wishlist'));
     }
 
     public function wishlist($id)
@@ -137,7 +137,8 @@ class LowonganController extends Controller
     }
 
 
-    public function deleteWishlist($id){
+    public function deleteWishlist($id)
+    {
         Wishlist::findOrFail($id)->delete();
         return redirect(route('showWishlist'));
     }
@@ -243,5 +244,12 @@ class LowonganController extends Controller
         $lowongan->save();
 
         return redirect('/manageLowongan');
+    }
+
+    public function deleteLowongan($id)
+    {
+        Lowongan::where('id',$id)->delete();
+
+        return redirect()->route('lowongan.create');
     }
 }

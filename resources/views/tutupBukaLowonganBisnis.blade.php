@@ -3,7 +3,7 @@
     <x-slot:content>
         <!-- Sidebar -->
         <div class="flex min-h-screen bg-gray-100">
-        <x-dashboard></x-dashboard>
+            <x-dashboard></x-dashboard>
 
             <main class="flex-1 p-6">
                 <div class="bg-white p-6 rounded-lg shadow">
@@ -61,11 +61,13 @@
                                             @endif
                                         </td>
                                         <td class="border px-4 py-2">
-                                            <form action="{{ route('updateLowonganStatus',['id' => $dataLowongans->id]) }}" method="POST">
+                                            <form
+                                                action="{{ route('updateLowonganStatus', ['id' => $dataLowongans->id]) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 @if ($dataLowongans->status == 'tutup')
-                                                    <button name="buka" type="submit" value="buka"
+                                                    <button name="buka" type="submit" value="buka" onclick="alert('Membuka')"
                                                         class="flex items-center px-3 py-1 text-sm bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-200 mx-auto">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1"
                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -76,7 +78,7 @@
                                                         Buka
                                                     </button>
                                                 @else
-                                                    <button name="tutup" type="submit" value="tutup"
+                                                    <button name="tutup" type="submit" value="tutup" onclick="alert('Menutup')"
                                                         class="flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-200 mx-auto">
                                                         <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg"
                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,5 +99,17 @@
                 </div>
             </main>
         </div>
+
+
+        <script>
+            function alert(pesan) {
+                Swal.fire({
+                    icon: "success",
+                    title: `Berhasil ${pesan} Lowongan`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        </script>
     </x-slot:content>
 </x-layout>

@@ -16,16 +16,15 @@
                             enctype="multipart/form-data">
                             @csrf
                             <!-- Cover Image -->
-                            <div
+                            <div id='preview_Bgimg'
                                 class="w-full rounded-sm bg-[url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat items-center">
                                 <!-- Profile Image -->
-                                <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat"
-                                    style="background-image: url('{{ asset('img/defaultProfil.jpg') }}');">
-
-
+                                <div id='preview_img' class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat"
+                                    style="background-image: url('{{ asset('img/defaultProfil.jpg') }}');"> 
                                     <div class="bg-white/90 rounded-full w-6 h-6 text-center ml-28 mt-4">
 
-                                        <input type="file" name="profile" id="upload_profile" hidden required>
+                                        <input type="file" name="profile" id="upload_profile"
+                                            onchange="loadFile(event)" hidden required>
 
                                         <label for="upload_profile">
                                             <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none"
@@ -43,7 +42,7 @@
                                 </div>
                                 <div class="flex justify-end">
                                     <!--  -->
-                                    <input type="file" name="banner" id="upload_cover" hidden required>
+                                    <input type="file" onchange="loadFileBanner(event)" name="banner" id="upload_cover" hidden required>
 
                                     <div
                                         class="bg-white flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
@@ -183,7 +182,6 @@
             </div>
         </section>
 
-
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 axios.get('/api/provinces')
@@ -243,6 +241,44 @@
                         });
                 });
             });
+        </script>
+        <script>
+            var loadFile = function(event) {
+                var input = event.target;
+                var file = input.files[0];
+        
+                if (file && file.type.startsWith('image/')) {
+                    var previewDiv = document.getElementById('preview_img');
+                    
+                    var objectURL = URL.createObjectURL(file);
+                    previewDiv.style.backgroundImage = `url(${objectURL})`;
+        
+                    previewDiv.onload = function() {
+                        URL.revokeObjectURL(objectURL);
+                    };
+                } else {
+                    alert('Please upload a valid image file.');
+                }
+            };
+        </script>
+        <script>
+            var loadFileBanner = function(event) {
+                var input = event.target;
+                var file = input.files[0];
+        
+                if (file && file.type.startsWith('image/')) {
+                    var previewDiv = document.getElementById('preview_Bgimg');
+                    
+                    var objectURL = URL.createObjectURL(file);
+                    previewDiv.style.backgroundImage = `url(${objectURL})`;
+        
+                    previewDiv.onload = function() {
+                        URL.revokeObjectURL(objectURL);
+                    };
+                } else {
+                    alert('Please upload a valid image file.');
+                }
+            };
         </script>
     </x-slot:content>
 </x-layout>
