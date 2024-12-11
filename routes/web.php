@@ -102,12 +102,12 @@ Route::middleware('checkBisnisman')->group(function () {
 
     Route::get('/manageProfilPerusahaanBusinesman', [PerusahaanController::class, 'manageProfil'])->name('manageProfile');
     Route::put('/editProfilPerusahaanBusinesman/{id}', [PerusahaanController::class, 'editProfil'])->name('editProfile');
-    Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
     Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
     Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan']);
-});
-
-
+    });
+    
+    
+Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
 Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/pilihRole', [pickRoleController::class, 'index'])->name('pilihRole');
@@ -136,6 +136,7 @@ Route::put('/terima/{id}', [VerifikasiController::class, 'terima'])->name('terim
 Route::put('/tolak/{id}', [VerifikasiController::class, 'tolak'])->name('tolakUser');
 
 Route::get('/listUserBergabung',[PerusahaanController::class, 'listUserBergabung'])->name('listUserBergabung');
+Route::delete('/deleteLowongan/{id}',[LowonganController::class, 'deleteLowongan'])->name('deleteLowongan');
 
 //Route API Lokasi
 Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);

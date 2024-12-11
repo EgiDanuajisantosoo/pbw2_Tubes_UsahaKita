@@ -71,7 +71,7 @@ class PerusahaanController extends Controller
         $fotoKtpPath = $request->file('foto_ktp')->store('public/foto_ktp');
         $fotoPerusahaanPath = $request->file('logo_perusahaan')->store('public/logo_perusahaan');
         $userId = Auth::id();
-
+        
         Perusahaan::create([
             'user_id' => $userId,
             'pemilik_perusahaan' => $request->pemilik_perusahaan,
@@ -89,7 +89,6 @@ class PerusahaanController extends Controller
             'foto_perusahaan' => $fotoPerusahaanPath,
             'deskripsi' => $request->deskripsi,
         ]);
-
         return redirect(route('perusahaan', absolute: false));
     }
 

@@ -195,8 +195,7 @@
                                                     </svg>
                                                 </button>
                                                 <!-- Tombol Hapus -->
-                                                <button
-                                                    @click="selectedLowongan = {{ $lowongan }}; openDeleteModal = true"
+                                                <button onclick="hapusData('{{ $lowongan->nama_lowongan }}','{{ route('deleteLowongan',['id' => $lowongan->id]) }}')"
                                                     class="flex items-center px-3 py-3 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -205,6 +204,11 @@
                                                             d="M19 7l-1.5 12.5a2 2 0 01-2 1.5H8.5a2 2 0 01-2-1.5L5 7m5 4v6m4-6v6M9 7h6m-7 0h8m-9-3h10M9 4h6" />
                                                     </svg>
                                                 </button>
+
+                                                <form id="deleteLowongan" action="/dasd" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -256,7 +260,15 @@ Tidak ada data yang tersedia.
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Benefit</label>
-                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">@isset($benefitArray)@foreach ($benefitArray as $requirement){{ $requirement }},@endforeach @else Tidak ada data yang tersedia.@endisset</textarea>
+                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">
+@isset($benefitArray)
+@foreach ($benefitArray as $requirement)
+{{ $requirement }},
+@endforeach
+@else
+Tidak ada data yang tersedia.
+@endisset
+</textarea>
                                 </div>
                                 <div class="md:flex md:row md:space-x-4 w-full text-xs">
                                     <div class="w-full flex flex-col mb-3">
@@ -320,50 +332,11 @@ Tidak ada data yang tersedia.
                             </form>
                         </div>
                     </div>
-
-                    <!-- Modal Hapus dengan Animasi -->
-                    <div x-show="openDeleteModal" x-transition:enter="transition ease-out duration-300 transform"
-                        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-200 transform"
-                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                        x-effect="document.body.style.overflow = openDeleteModal ? 'hidden' : 'auto'"
-                        class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-
-                        <div class="relative bg-white rounded-lg shadow max-w-md w-full p-6">
-                            <!-- Tombol Close -->
-                            <button type="button" @click="openDeleteModal = false"
-                                class="absolute top-3 right-3 text-gray-600 hover:text-gray-900">
-                                &times;
-                            </button>
-
-                            <!-- Konten Modal -->
-                            <div class="text-center">
-                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                <h3 class="mb-5 text-lg font-normal text-gray-500">Apakah Anda yakin ingin menghapus
-                                    lowongan <span class="font-bold" x-text="selectedLowongan.nama_lowongan"></span>?
-                                </h3>
-                                <div class="flex justify-center gap-4">
-                                    <!-- Tombol Konfirmasi Hapus -->
-                                    <button @click="hapusLowongan(selectedLowongan); openDeleteModal = false"
-                                        class="px-5 py-2.5 bg-red-600 text-white rounded hover:bg-red-800">
-                                        Ya, Hapus
-                                    </button>
-                                    <!-- Tombol Batal -->
-                                    <button @click="openDeleteModal = false"
-                                        class="px-5 py-2.5 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                                        Batal
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
+        </div>
+
+
+        </div>
         </div>
 
         {{-- form tambah lowongan --}}
@@ -567,12 +540,11 @@ Tidak ada data yang tersedia.
                 });
             });
         </script> --}}
-        <script>
+        {{-- <script>
             function hapusLowongan(lowongan) {
-                // Simulasi aksi hapus, ganti dengan logika backend yang sesuai
                 alert(`Lowongan "${lowongan.judul}" telah dihapus!`);
             }
-        </script>
+        </script> --}}
         <script>
             var rupiah = document.getElementById("rupiah");
             rupiah.addEventListener("keyup", function(e) {
@@ -600,6 +572,30 @@ Tidak ada data yang tersedia.
             }
         </script>
 
+        <script>
+            function hapusData(namaLowongan,actionForm) {
+                Swal.fire({
+                    title: "Anda Yakin?",
+                    text: "Ingin menghapus lowongan " + namaLowongan,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
+                        document.getElementById('deleteLowongan').action = actionForm;
+                        document.getElementById('deleteLowongan').submit();
+
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                });
+            }
+        </script>
     </x-slot:content>
 </x-layout>
