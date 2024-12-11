@@ -24,7 +24,7 @@
 
         <!-- Stats Section -->
         <div id="section1" class="p-4">
-            <div class="flex justify-around bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6 py-8 px-4 space-y-4 md:space-y-0 md:mt-[200px]"
+            {{-- <div class="flex justify-around bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6 py-8 px-4 space-y-4 md:space-y-0 md:mt-[200px]"
                 data-aos="fade-up" data-aos-delay="300">
                 <div class="text-center">
                     <h3 class="text-3xl font-semibold">6 mil</h3>
@@ -39,7 +39,7 @@
                     <p class="text-gray-600">Employees work in all parts of the world</p>
                 </div>
 
-            </div>
+            </div> --}}
             <div class="text-center md:mt-[100px] " data-aos="fade-up" data-aos-delay="400">
                 <h1 class="text-3xl font-semibold text-gray-800 mb-4">Tujuan Aplikasi</h1>
                 <p class="text-gray-600">Proyek ini bertujuan untuk mengembangkan sebuah aplikasi berbasis web yang berfungsi untuk memudahkan pengusaha dalam mencari rekan bisnis untuk memperluas mitra usaha,

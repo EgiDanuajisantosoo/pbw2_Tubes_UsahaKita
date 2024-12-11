@@ -79,7 +79,7 @@ Route::get('/tambahLowonganBisnis', function () {
 });
 
 
-Route::middleware('checkBisnisman')->group(function () {
+// Route::middleware('checkBisnisman')->group(function () {
     Route::get('/', function () {
         return view('homePage');
     });
@@ -88,7 +88,9 @@ Route::middleware('checkBisnisman')->group(function () {
     Route::get('/searchPerusahaan', [PerusahaanController::class, 'index'])->name('search.perusahaan');
 
     Route::get('/profile/edit', [profileUserController::class, 'create'])->name('profileUser.create');
-    Route::post('/profile/edit/{id}', [profileUserController::class, 'edit'])->name('profileUser.edit');
+    Route::post('/profile/edit', [profileUserController::class, 'edit'])->name('profileUser.edit');
+    Route::get('/profile/formupdate/{id}', [profileUserController::class, 'formupdate'])->name('profileUser.formUpdate');
+    Route::post('/profile/update/{id}', [profileUserController::class, 'update'])->name('profileUser.update');
     Route::get('/profile/{id}', [profileUserController::class, 'index'])->name('profileUser.index');
 
     Route::get('/lowonganBisnis', [LowonganController::class, 'index'])->name('lowongan.index');
@@ -104,7 +106,7 @@ Route::middleware('checkBisnisman')->group(function () {
     Route::put('/editProfilPerusahaanBusinesman/{id}', [PerusahaanController::class, 'editProfil'])->name('editProfile');
     Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
     Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan']);
-    });
+    // });
     
     
 Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
@@ -121,6 +123,7 @@ Route::get('/form/verif', [EmailController::class, 'showChangeEmailForm'])->name
 Route::post('/email/change', [EmailController::class, 'changeEmail'])->name('ganti.email');
 Route::post('/email/verify', [EmailController::class, 'verifyEmail'])->name('verif.email');
 Route::get('/codeVerif', [EmailController::class, 'codeVerif'])->name('codeVerif');
+Route::post('/gantiSandi', [EmailController::class, 'gantiSandi'])->name('gantiSandi');
 
 
 Route::get('/checkUser', [checkUserController::class, 'index'])->name('checkUser');

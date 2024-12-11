@@ -34,7 +34,7 @@
 
                 <!-- Card 2 -->
                 @foreach ($detailVerif as $detailVerifikasi)
-                    @if ($detailVerifikasi->status_permintaaan == 'pendding')
+                    @if ($detailVerifikasi->status_permintaan == 'pendding')
                         <!-- Card 2 -->
                         <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
                             <div class="flex justify-between">
@@ -60,7 +60,7 @@
                                 </button></a>
                             </div>
                         </div>
-                    @elseif ($detailVerifikasi->status_permintaaan == 'diterima')
+                    @elseif ($detailVerifikasi->status_permintaan == 'diterima')
                         <!-- Card 2 -->
                         <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
                             <div class="flex justify-between">

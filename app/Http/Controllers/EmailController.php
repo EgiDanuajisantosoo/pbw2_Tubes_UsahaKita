@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use \App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 
 class EmailController extends Controller
 {
@@ -17,7 +18,7 @@ class EmailController extends Controller
     }
 
     public function setting(){
-        $dataUser = User::find(Auth::id())->first();
+        $dataUser = User::find(Auth::id());
         return view('settingAkun',compact('dataUser'));
     }
 
@@ -57,23 +58,38 @@ class EmailController extends Controller
     public function verifyEmail(Request $request)
     {
         $request->validate([
-            'code' => 'required|size:6', // Pastikan kode valid
+            'code' => 'required|size:6',
         ]);
 
-        // Ambil user yang sedang login
         $user = User::find(Auth::id());
 
-        // Verifikasi kode yang dimasukkan oleh pengguna
         if ($user->verification_code == $request->code) {
-            // Update email pengguna
             $user->email = $user->new_email;
-            $user->new_email = null; // Reset email baru
-            $user->verification_code = null; // Reset kode verifikasi
+            $user->new_email = null;
+            $user->verification_code = null; 
             $user->save();
 
             return redirect()->route('setting')->with('status', value: 'Email Anda telah berhasil diperbarui.');
         }
 
         return back()->withErrors(['code' => 'Kode verifikasi salah.']);
+    }
+
+    public function gantiSandi(Request $request){
+        $user = User::find(Auth::id());
+        $request->validate([
+            'password_sekarang' => 'required',
+            'password_baru' => 'required|min:8|confirmed',
+            'konfirmasi_password'=> 'required|min:8'
+        ]);
+
+        if (!Hash::check($request->password_sekarang, $user->password)) {
+            return back()->withErrors(['password_sekarang' => 'Password saat ini tidak sesuai.']);
+        }
+        $user->password = Hash::make($request->password_baru);
+        $user->save();
+
+
+        return redirect('/setting');
     }
 }

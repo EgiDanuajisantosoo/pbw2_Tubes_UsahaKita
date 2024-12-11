@@ -12,7 +12,7 @@
                         <div class="relative bg-white rounded-xl shadow-md p-6 hover:shadow-2xl transition duration-300" id="businessmanBox">
                             <input type="radio" id="businessman" name="role" value="2" class="absolute top-4 right-4">
                             <label for="businessman" class="flex flex-col items-center cursor-pointer">
-                                <img src="[link_to_businessman_svg]" alt="Businessman Icon" class="w-16 h-16 mx-auto mb-4">
+                                {{-- <img src="[link_to_businessman_svg]" alt="Businessman Icon" class="w-16 h-16 mx-auto mb-4"> --}}
                                 <h2 class="text-md font-semibold text-center">Businessman</h2>
                                 <p class="text-sm text-justify mt-2">Sebagai seorang Business Man, Anda diharapkan untuk memimpin dan mengelola berbagai aspek dalam dunia bisnis dengan tujuan utama untuk mengembangkan dan memperluas jaringan bisnis...</p>
                             </label>
@@ -22,7 +22,7 @@
                         <div class="relative bg-white rounded-lg shadow-md p-6 hover:shadow-2xl transition duration-300" id="businessPartnerBox">
                             <input type="radio" id="business-partner" name="role" value="3" class="absolute top-4 right-4">
                             <label for="business-partner" class="flex flex-col items-center cursor-pointer">
-                                <img src="[link_to_business_partner_svg]" alt="Business Partner Icon" class="w-16 h-16 mx-auto mb-4">
+                                {{-- <img src="[link_to_business_partner_svg]" alt="Business Partner Icon" class="w-16 h-16 mx-auto mb-4"> --}}
                                 <h2 class="text-md font-semibold text-center">Business Partner</h2>
                                 <p class="text-gray-700 text-sm text-justify mt-2">Sebagai seorang Business Partner, Anda akan berperan sebagai mitra strategis dalam menciptakan peluang bisnis yang saling menguntungkan...</p>
                             </label>

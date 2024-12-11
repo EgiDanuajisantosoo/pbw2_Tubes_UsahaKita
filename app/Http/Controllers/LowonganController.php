@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BergabungPerusahaan;
 use App\Models\TagSpesifikasi;
 use App\Models\Lowongan;
 use App\Models\TagSpesifikasiLowongan;
@@ -89,7 +90,7 @@ class LowonganController extends Controller
             'jumlah_lowongan' => $validated['jumlah'],
             'modal_usaha' => $validated['modal_usaha'],
             'requirement' => json_encode($requirementsArray),
-            'benefit' => json_encode($requirementsArray),
+            'benefit' => json_encode($benfitArray),
             'provinsi' => $validated['provinsi'],
             'kota' => $validated['kota'],
             'kecamatan' => $validated['kecamatan'],
@@ -214,6 +215,7 @@ class LowonganController extends Controller
      */
     public function destroy(string $id)
     {
+
         TagSpesifikasiLowongan::where('lowongan_id', $id)->delete();
         Lowongan::findOrFail($id)->delete();
         return redirect()->route('lowongan.create')->with('success', 'Lowongan berhasil dihapus');
@@ -248,8 +250,11 @@ class LowonganController extends Controller
 
     public function deleteLowongan($id)
     {
+        Wishlist::findOrFail('lowongan_id',$id)->delete();
+        Wishlist::where('lowongan_id',$id)->delete();
+        BergabungPerusahaan::where('lowongan_id',$id)->delete();
+        TagSpesifikasiLowongan::where('lowongan_id',$id)->delete();
         Lowongan::where('id',$id)->delete();
-
         return redirect()->route('lowongan.create');
     }
 }

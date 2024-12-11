@@ -70,7 +70,8 @@
         {{-- Modal Passowrd --}}
 
         <div id="modalPassword" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <form action="#" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+            <form action="{{ route('gantiSandi') }}" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+                @csrf
                 <div class="flex justify-between">
                     <h1>Edit Password</h1>
                     <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalPassword()" >
@@ -78,15 +79,15 @@
                     </button>
                 </div>
                 <div>
-                    <input type="text" name="company_name" placeholder="Password saat ini"
+                    <input type="password" name="password_sekarang" placeholder="Password saat ini"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <input type="text" name="company_name" placeholder="Password Baru"
+                    <input type="password" name="password_baru" placeholder="Password Baru"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <input type="text" name="company_name" placeholder="Konfirmasi Password"
+                    <input type="password" name="konfirmasi_password" placeholder="Konfirmasi Password"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="flex justify-end gap-5">

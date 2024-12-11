@@ -117,7 +117,8 @@ class PerusahaanController extends Controller
     public function listPermintaan()
     {
         $listBergabung = BergabungPerusahaan::whereHas('lowongan.perusahaan', function ($query) {
-            $query->where('user_id', Auth::id());
+            $query->where('user_id', Auth::id())
+            ->where('status_perusahaan','pendding');
         })->with('lowongan.user')->get();
 
         return view('listPermintaanBergabung', compact('listBergabung'));
