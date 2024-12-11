@@ -9,10 +9,10 @@
                         src="{{ $profilUser == null ? asset('img/defaultBanner.jpeg') : asset('storage/' . $profilUser->banner) }}"
                         alt="image description">
 
-                    <h1
+                    {{-- <h1
                         class="absolute bottom-4 left-4 md:left-20 lg:left-40 xl:left-72 antialiased font-poppins text-white text-3xl md:text-5xl">
                         NTT Data Center
-                    </h1>
+                    </h1> --}}
                     <img class="absolute top-40 md:top-48 left-4 md:left-10 ring-4 ring-white rounded-full h-36 w-36 md:h-52 md:w-52 border-black object-cover object-center"
                         src="{{ $profilUser == null ? asset('img/defaultProfil.jpg') : asset('storage/' . $profilUser->foto_profile) }}"
                         alt="image description">
@@ -66,12 +66,12 @@
                         </div>
                         <p class="font-semibold text-gray-700">
                             {{ $profilUser == null ? 'belum ada slogan' : $profilUser->slogan }}</p>
-                        <div class="inline-flex gap-2 mt-8 md:mt-12">
+                        {{-- <div class="inline-flex gap-2 mt-8 md:mt-12">
                             <button class="py-2 px-3 rounded-md text-sm text-white bg-blue-700">Invite To
                                 Project</button>
                             <button class="py-2 px-3 rounded-md text-sm ring-1 ring-gray-400">Contact</button>
                             <button class="py-2 px-3 rounded-md text-sm ring-1 ring-gray-400">Agenda</button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="w-full">
                         <p class="text-gray-700 font-roboto font-semibold mt-6">Keahlian ({{ count($KeahlianArray) }})
@@ -116,7 +116,7 @@
                         @foreach ($PengalamanArray as $no => $pengalaman)
                             @if ($no == 0)
                                 <span
-                                    class="bg-blue-300 text-blue-700 px-2 py-1 rounded text-sm">{{ $pengalaman }}</span>
+                                    class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">{{ $pengalaman }}</span>
                             @else
                                 <span
                                     class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">{{ $pengalaman }}</span>
