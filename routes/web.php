@@ -102,12 +102,12 @@ Route::middleware('checkBisnisman')->group(function () {
 
     Route::get('/manageProfilPerusahaanBusinesman', [PerusahaanController::class, 'manageProfil'])->name('manageProfile');
     Route::put('/editProfilPerusahaanBusinesman/{id}', [PerusahaanController::class, 'editProfil'])->name('editProfile');
-    Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
     Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
     Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan']);
-});
-
-
+    });
+    
+    
+Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
 Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/pilihRole', [pickRoleController::class, 'index'])->name('pilihRole');

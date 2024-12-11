@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('kategori')->references('id_kategori')->on('kategori_bisnis')->onDelete('restrict');
             $table->string('foto_ktp');
             $table->string('foto_perusahaan');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->string('website_perusahaan')->nullable();
             $table->string('provinsi');
             $table->string('kota');
