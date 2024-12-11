@@ -2,16 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Support\Enums\IconPosition;
+use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
@@ -24,15 +30,27 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('nama_depan')
-                ->required()
-                ->label('nama depan'),
+                    ->required()
+                    ->label('Nama Depan'),
                 TextInput::make('nama_belakang')
-                ->required()
-                ->label('nama belakang'),
+                    ->required()
+                    ->label('Nama Belakang'),
+                Select::make('role')
+                    ->required()
+                    ->label('Role')
+                    ->relationship('role', 'jenis_role'),
+                // ->options([
+                //     '1' => 'Admin',
+                //     '2' => 'Bisnisman',
+                //     '3' => 'Bisnis Partner',
+                // ]),
                 TextInput::make('email')
-                ->required(),
+                    ->required()
+                    ->label('Email'),
                 TextInput::make('password')
-                >required(fn ($context) => $context == 'create')
+                    ->password()
+                    ->required()
+                    ->label('Password'),
             ]);
     }
 
@@ -40,13 +58,21 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('nama_depan')->searchable(),
+                TextColumn::make('nama_belakang')->searchable(),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->icon('heroicon-m-envelope')
+                    ->iconPosition(IconPosition::After),
+                TextColumn::make('role.jenis_role'),
             ])
             ->filters([
-                //
+                SelectFilter::make('role')
+                    ->relationship('role', 'jenis_role')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

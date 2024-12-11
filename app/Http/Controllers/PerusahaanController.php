@@ -63,8 +63,8 @@ class PerusahaanController extends Controller
             'kelurahan' => ['required', 'string'],
             'alamat_lengkap' => ['string'],
             'kategori' => ['required', 'int', 'max:2'],
-            'foto_ktp' => ['required', 'image', 'max:2048'],
-            'logo_perusahaan' => ['required', 'image', 'max:2048'],
+            'foto_ktp' => ['required', 'image', 'max:10240'],
+            'logo_perusahaan' => ['required', 'image', 'max:10240'],
             'deskripsi' => ['string'],
         ]);
 

@@ -42,7 +42,7 @@ class MakeCustomFilamentUser extends Command
             'nama_depan' => $namaDepan,
             'nama_belakang' => $namaBelakang,
             'email' => $email,
-            'role' => $role,
+            'role_id' => $role,
             'password' => Hash::make($password),
         ]);
 

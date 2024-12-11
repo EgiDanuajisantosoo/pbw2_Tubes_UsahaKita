@@ -17,12 +17,15 @@ class checkUserController extends Controller
         $userId = Auth::id();
 
         $user = User::where('email', $email)->first();
-        $role = $user->role;
+        $role = $user->role_id;
         $kategori = KategoriBisnis::all();
 
         if (Perusahaan::where('user_id', $userId)->exists() && $role == 2 || $role == 3) {
             return redirect('/lowonganBisnis');
-        }else {
+        }else if($role == 1){
+            return redirect('/admin');
+        }
+        else {
             return view('form.register-perusahaan', compact('kategori'));
         }
         

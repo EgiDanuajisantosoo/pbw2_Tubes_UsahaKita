@@ -33,13 +33,13 @@
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Profile</a>
                         </li>
                     @endif
-                    @if (Auth::check() && Auth::user()->role == 2)
+                    @if (Auth::check() && Auth::user()->role_id == 2)
                         <li><a href="/dashboardBusinesman"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Dashboard</a>
                         </li>
                     @endif
                     @if (Auth::check())
-                        @if (Auth::user()->role == 3)
+                        @if (Auth::user()->role_id == 3)
                             <li><a href="/verifikasiLowongan"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Aktivitas</a>
                         @endif

@@ -24,7 +24,7 @@ class CheckBisnisMan
             return $next($request);
         }
         
-        if (Auth::user()->role == 2 && $perusahaan == null) {
+        if (Auth::user()->role_id == 2 && $perusahaan == null) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

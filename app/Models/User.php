@@ -22,7 +22,7 @@ class User extends Authenticatable
         'nama_belakang',
         'email',
         'password',
-        'role',
+        'role_id',
         'new_email', 
         'verification_code'
     ];
@@ -49,10 +49,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role');
+        return $this->belongsTo(Role::class, 'role_id', 'id'); // 'role' adalah nama kolom di tabel 'users', 'id' adalah primary key di tabel 'roles'
     }
 
     public function perusahaan()
