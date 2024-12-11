@@ -30,7 +30,7 @@ class pickRoleController extends Controller
             'nama_depan' => session('nama_depan'),
             'nama_belakang' => session('nama_belakang'),
             'email' => session('email'),
-            'role' => $request->role,
+            'role_id' => $request->role,
             'password' => Hash::make(session('password')),
         ]);
 
