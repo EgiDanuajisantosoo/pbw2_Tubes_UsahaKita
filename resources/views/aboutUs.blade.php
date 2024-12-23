@@ -8,7 +8,7 @@
         <!-- Hero Section -->
 
         <div class="bg-cover bg-center h-screen"
-            style="background-image: url('https://img.freepik.com/free-photo/colleagues-working-together-project_23-2149286118.jpg?t=st=1733474066~exp=1733477666~hmac=8b43f58cd5f5e0d520a1a2068412664ccd8288597801fe4e912b518b69c2c5d7&w=1380');"
+            style="background-image: url({{ asset('img/bg_about.jpg') }});"
             data-aos="fade-in">
             <div class="absolute inset-0 bg-black opacity-30"></div>
             <div class="max-w-6xl my-auto mx-auto px-6 py-32 text-white" data-aos="fade-up" data-aos-delay="300">
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Stats Section -->
-        <div id="section1" class="p-4">
+        {{-- <div id="section1" class="p-4"> --}}
             {{-- <div class="flex justify-around bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6 py-8 px-4 space-y-4 md:space-y-0 md:mt-[200px]"
                 data-aos="fade-up" data-aos-delay="300">
                 <div class="text-center">
@@ -40,27 +40,27 @@
                 </div>
 
             </div> --}}
-            <div class="text-center md:mt-[100px] " data-aos="fade-up" data-aos-delay="400">
+            {{-- <div class="text-center md:mt-[100px] " data-aos="fade-up" data-aos-delay="400">
                 <h1 class="text-3xl font-semibold text-gray-800 mb-4">Tujuan Aplikasi</h1>
                 <p class="text-gray-600">Proyek ini bertujuan untuk mengembangkan sebuah aplikasi berbasis web yang berfungsi untuk memudahkan pengusaha dalam mencari rekan bisnis untuk memperluas mitra usaha,
                     <br> ataupun membuka cabang usaha yang telah dirintis oleh pengusaha. Yang pasti dengan Aman dan Mudah.</p>
 
-            </div>
-            <a href="#section2" class="">
+            </div> --}}
+            {{-- <a href="#section2" class="">
                 <div class="flex space-x-6 mt-8 justify-center">
                     <button
                         class="px-4 p-3 bg-sky-700 border-2 border-sky-700 text-white font-medium rounded-md hover:bg-white hover:text-sky-700"
                         data-aos="fade-up" data-aos-delay="500">Member</button>
                 </div>
-            </a>
-        </div>
+            </a> --}}
+        {{-- </div> --}}
 
 
 
 
 
         <!-- Team Section -->
-        <div class="md:mt-[200px] md:mb-[200px] p-6 "id="section2">
+        <div class="md:mt-[200px] md:mb-[200px] p-6 "id="section1">
             <div class="text-center md:mt-[100px]" data-aos="fade-up" data-aos-delay="300">
                 <h1 class="text-3xl font-semibold text-gray-800 md:mt-[10px]">Member UsahaKita</h1>
             </div>
@@ -72,7 +72,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="https://cdn0-production-images-kly.akamaized.net/GvRUb3iZWoSiF3Lkqm73rjvUdJg=/800x1066/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4702936/original/067069900_1704003692-Zee_JKT48_0.jpg"
+                        <img src="{{ asset('img/defaultProfil.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -114,7 +114,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="https://cdn0-production-images-kly.akamaized.net/GvRUb3iZWoSiF3Lkqm73rjvUdJg=/800x1066/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4702936/original/067069900_1704003692-Zee_JKT48_0.jpg"
+                        <img src="{{ asset('img/defaultProfil.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -156,7 +156,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="https://cdn0-production-images-kly.akamaized.net/GvRUb3iZWoSiF3Lkqm73rjvUdJg=/800x1066/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4702936/original/067069900_1704003692-Zee_JKT48_0.jpg"
+                       <img src="{{ asset('img/defaultProfil.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -198,7 +198,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="https://cdn0-production-images-kly.akamaized.net/GvRUb3iZWoSiF3Lkqm73rjvUdJg=/800x1066/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4702936/original/067069900_1704003692-Zee_JKT48_0.jpg"
+                       <img src="{{ asset('img/defaultProfil.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">

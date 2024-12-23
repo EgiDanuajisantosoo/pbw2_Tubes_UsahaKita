@@ -41,7 +41,7 @@
                                 <h2 class="text-3xl font-semibold text-gray-800 mb-6">Edit Profil Perusahaan</h2>
 
                                 <!-- Form Edit Profile Perusahaan -->
-                                <form action="{{ route('editProfile',['id' => 1]) }}" method="POST" class="space-y-6">
+                                <form action="{{ route('editProfile',['id' => $dataPerusahaan->id]) }}" method="POST" class="space-y-6">
                                     @csrf
                                     @method('PUT')
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -100,7 +100,7 @@
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Website
                                                 Perusahaan</label>
-                                            <input type="text" name="no_telp" placeholder="Nomor Telepon Perusahaan"
+                                            <input type="text" name="website" placeholder="Nomor Telepon Perusahaan"
                                                 value="{{ $dataPerusahaan->website_perusahaan }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
@@ -160,6 +160,11 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-semibold mb-2">Detail Alamat</label>
+                                            <input type="text" name="alamat_lengkap" placeholder="Jl.abc"
+                                                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
 

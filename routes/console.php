@@ -8,12 +8,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-// Command custom untuk Filament
-Artisan::command('make:custom-filament-user', function () {
-    $this->info('Custom Filament User Command Executed.');
-})->purpose('Membuat custom user untuk Filament');
-
-// Mendaftarkan command berbasis class
-Artisan::command('make:custom-filament-user', function () {
+// Mendaftarkan User Menggunakan console
+Artisan::command('make:custom-filament-user', callback: function () {
     $this->call(\App\Console\Commands\MakeCustomFilamentUser::class);
 })->purpose('Membuat custom user untuk Filament');

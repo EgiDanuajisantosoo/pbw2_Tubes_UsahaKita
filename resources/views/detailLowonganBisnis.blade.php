@@ -41,7 +41,7 @@
             <p class="text-sm text-gray-500 mb-4">Posted {{ $detailLowongan->created_at->diffForHumans() }}</p>
 
             <!-- Tombol aksi -->
-            @if (Auth::user()->role_id != 2)
+            @if (Auth::check() && Auth::user()->role_id != 2)
                 <div class="flex space-x-4">
                     <button
                         class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700  active:scale-95 transition duration-300"

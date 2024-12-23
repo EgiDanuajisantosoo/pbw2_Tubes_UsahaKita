@@ -108,7 +108,7 @@ class LowonganController extends Controller
     {
         Carbon::setLocale('id');
         $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis', 'wishlist')->find($id);
-        $wishlist = Wishlist::where('user_id', Auth::id())->count();
+        $wishlist = Wishlist::where('lowongan_id', $id)->count();
         // dd($wishlist);
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);

@@ -94,8 +94,41 @@ class PerusahaanController extends Controller
 
     public function editProfil(Request $request, $id)
     {
+        // dd($request->all());
+        $request->validate([
+            'nama_perusahaan' => 'required|string|max:255',
+            'pemilik_perusahaan' => 'required|string|max:255',
+            'kategori' => 'required|integer',
+            'email_perusahaan' => 'required|email',
+            'no_telp' => 'required|string|max:15',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string',
+            'kecamatan' => 'required|string',
+            'kelurahan' => 'required|string',
+            'deskripsi' => 'nullable|string',
+            'alamat_lengkap' => 'nullable|string',
+            'website' => 'nullable|string',
+        ]);
 
-        return view('manageProfilPerusahaanBusinesman');
+
+        $perusahaan = Perusahaan::findOrFail($id);
+
+        $perusahaan->update([
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'pemilik_perusahaan' => $request->pemilik_perusahaan,
+            'kategori' => $request->kategori,
+            'email_perusahaan' => $request->email_perusahaan,
+            'no_telp' => $request->no_telp,
+            'provinsi' => $request->provinsi,
+            'kota' => $request->kota,
+            'kecamatan' => $request->kecamatan,
+            'kelurahan' => $request->kelurahan,
+            'deskripsi' => $request->deskripsi,
+            'alamat_lengkap' => $request->alamat_lengkap,
+            'website_perusahaan' => $request->website,
+        ]);
+
+        return redirect()->route('manageProfile');
     }
 
     public function profilPerusahaan($id)
@@ -118,7 +151,7 @@ class PerusahaanController extends Controller
     {
         $listBergabung = BergabungPerusahaan::whereHas('lowongan.perusahaan', function ($query) {
             $query->where('user_id', Auth::id())
-            ->where('status_perusahaan','pendding');
+            ->where('status_permintaan','pendding');
         })->with('lowongan.user')->get();
 
         return view('listPermintaanBergabung', compact('listBergabung'));
