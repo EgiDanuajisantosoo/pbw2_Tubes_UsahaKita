@@ -27,7 +27,7 @@
 
 
             <!-- Cards Container -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 min-h-[180px]">
 
                 <!-- Card 2 -->
                 <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">

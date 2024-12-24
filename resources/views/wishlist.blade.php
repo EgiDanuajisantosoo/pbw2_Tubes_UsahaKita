@@ -26,7 +26,7 @@
 
 
             <!-- Cards Container -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 min-h-[180px]">
 
 
                 <!-- Card 2 -->
@@ -49,13 +49,13 @@
                     </div>
                     <p class="text-gray-500 mt-1">{{ $detailWishlists->lowongan->nama_lowongan }}</p>
                     <div class="flex gap-3 mt-6">
-                        <button class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+                        <a href="detailLowonganBisnis/{{ $detailWishlists->lowongan_id }}" class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
                             Lihat Lowongan
-                        </button>
+                        </a>
                     </div>
                 </div>
                 @endforeach
-              
+                
 
 
                 {{-- <button class="show-example-btn" aria-label="Try me! Example: A confirm dialog, with a function attached to the 'Confirm'-button">Try me!</button> --}}

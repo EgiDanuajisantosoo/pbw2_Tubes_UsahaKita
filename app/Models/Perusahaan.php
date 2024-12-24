@@ -24,6 +24,8 @@ class Perusahaan extends Model
         'kecamatan',
         'kelurahan',
         'alamat_lengkap',
+        'status',
+        'alasan',
     ];
 
     public function user()

@@ -48,18 +48,23 @@
                         onclick="openModal()">Berbisnis
                         Sekarang</button>
 
-                    <form action="{{ route('wishlist', ['id' => $detailLowongan->id]) }} " method="POST">
-                        @csrf
-                        @if ($wishlist == 1)
+                    @if (isset($wishlist) && $wishlist->count() == 1)
+                        <form action="{{ route('delete.wishlist', $wishlist->id) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
                             <button
                                 class="bg-emerald-100 text-green-800 font-semibold px-4 py-2 rounded hover:bg-emerald-200  active:scale-95 transition duration-300">
                                 Tersimpan</button>
-                        @else
+                        </form>
+                    @else
+                        <form action="{{ route('wishlist', ['id' => $detailLowongan->id]) }} " method="POST">
+                            @csrf
                             <button
                                 class="bg-sky-100 text-blue-800 font-semibold px-4 py-2 rounded hover:bg-sky-200  active:scale-95 transition duration-300"
                                 type="submit">Simpan</button>
-                        @endif
-                    </form>
+                        </form>
+                    @endif
 
                 </div>
             @endif

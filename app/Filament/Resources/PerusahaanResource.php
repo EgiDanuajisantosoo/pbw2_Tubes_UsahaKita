@@ -8,11 +8,14 @@ use Filament\Forms\Form;
 use App\Models\Perusahaan;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PerusahaanResource\Pages;
+use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\PerusahaanResource\RelationManagers;
 
 class PerusahaanResource extends Resource
@@ -24,10 +27,22 @@ class PerusahaanResource extends Resource
     }
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([]);
+            ->schema([
+                Select::make('status')
+                    ->required()
+                    ->label('Status')
+                    ->options([
+                        'terverifikasi' => 'terverifikasi',
+                        'pendding' => 'pendding',
+                        'ditolak' => 'ditolak',
+                    ]),
+                TextInput::make('alasan')
+                    ->label('Alasan Ditolak'),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -47,10 +62,15 @@ class PerusahaanResource extends Resource
                 ImageColumn::make('foto_perusahaan')
                     ->url(fn($record) => asset('storage/' . $record->foto_perusahaan))
                     ->size(100),
-                    TextColumn::make('status')
+                TextColumn::make('status')
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'pendding' => 'Pendding',
+                        'terverifikasi' => 'Terverifikasi',
+                        'ditolak' => 'Ditolak',
+                    ])->default('pendding')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

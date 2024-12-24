@@ -65,7 +65,7 @@ class UserResource extends Resource
                     ->icon('heroicon-m-envelope')
                     ->iconPosition(IconPosition::After),
                 TextColumn::make('role.jenis_role'),
-            ])
+            ])  
             ->filters([
                 SelectFilter::make('role')
                     ->relationship('role', 'jenis_role')

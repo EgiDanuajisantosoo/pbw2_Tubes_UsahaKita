@@ -82,7 +82,7 @@ Route::get('/tambahLowonganBisnis', function () {
 // Route::middleware('checkBisnisman')->group(function () {
     Route::get('/', function () {
         return view('homePage');
-    });
+    })->name('homePage');
 
     Route::get('/searchLowongan', [LowonganController::class, 'index'])->name('search.lowongan');
     Route::get('/searchPerusahaan', [PerusahaanController::class, 'index'])->name('search.perusahaan');

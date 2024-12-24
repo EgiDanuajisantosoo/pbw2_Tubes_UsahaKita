@@ -108,8 +108,10 @@ class LowonganController extends Controller
     {
         Carbon::setLocale('id');
         $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis', 'wishlist')->find($id);
-        $wishlist = Wishlist::where('lowongan_id', $id)->count();
-        // dd($wishlist);
+        $wishlist = Wishlist::withCount('lowongan')
+            ->where('lowongan_id', $id)
+            ->first();
+        // dd($wishlist->id);
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);
         return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray', 'wishlist'));
@@ -141,7 +143,7 @@ class LowonganController extends Controller
     public function deleteWishlist($id)
     {
         Wishlist::findOrFail($id)->delete();
-        return redirect(route('showWishlist'));
+        return redirect()->back();
     }
 
     /**
@@ -250,11 +252,11 @@ class LowonganController extends Controller
 
     public function deleteLowongan($id)
     {
-        Wishlist::findOrFail('lowongan_id',$id)->delete();
-        Wishlist::where('lowongan_id',$id)->delete();
-        BergabungPerusahaan::where('lowongan_id',$id)->delete();
-        TagSpesifikasiLowongan::where('lowongan_id',$id)->delete();
-        Lowongan::where('id',$id)->delete();
+        Wishlist::findOrFail('lowongan_id', $id)->delete();
+        Wishlist::where('lowongan_id', $id)->delete();
+        BergabungPerusahaan::where('lowongan_id', $id)->delete();
+        TagSpesifikasiLowongan::where('lowongan_id', $id)->delete();
+        Lowongan::where('id', $id)->delete();
         return redirect()->route('lowongan.create');
     }
 }
