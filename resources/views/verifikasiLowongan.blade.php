@@ -52,7 +52,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <p class="text-gray-500 mt-1">{{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button
                                     class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
@@ -77,7 +78,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <p class="text-gray-500 mt-1">{{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button
                                     class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
@@ -102,7 +104,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <p class="text-gray-500 mt-1">{{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
 
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button

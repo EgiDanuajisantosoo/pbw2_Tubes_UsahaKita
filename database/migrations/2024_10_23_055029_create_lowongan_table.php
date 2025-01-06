@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('perusahaan_id')->references('id')->on('perusahaan')->onDelete('restrict');
             $table->string('requirement');
             $table->string('benefit');
-            $table->string('modal_usaha');
+            $table->bigInteger('modal_usaha');
             $table->unsignedInteger('jumlah_lowongan');
             $table->string('provinsi');
             $table->string('kota');

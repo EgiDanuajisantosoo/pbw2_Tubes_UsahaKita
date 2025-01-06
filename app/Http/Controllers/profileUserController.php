@@ -107,14 +107,14 @@ class profileUserController extends Controller
         $KeahlianArray = json_decode($dataProfile->keahlian, true) ?? [];
         $PendidikanArray = json_decode($dataProfile->pendidikan, true) ?? [];
         $SertifikasiArray = json_decode($dataProfile->sertifikasi, true) ?? [];
-        return view('form.updateProfileUser', compact('dataProfile','PengalamanArray', 'KeahlianArray', 'PendidikanArray', 'SertifikasiArray'));
+        return view('form.updateProfileUser', compact('dataProfile', 'PengalamanArray', 'KeahlianArray', 'PendidikanArray', 'SertifikasiArray'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'profile' => 'required|image|max:2048',
-            'banner' => 'required|image|max:2048',
+            'profile' => 'image|max:2048',
+            'banner' => 'image|max:2048',
             'slogan' => 'required',
             'jenis_kelamin' => 'required',
             'no_telp' => 'required',
@@ -128,8 +128,7 @@ class profileUserController extends Controller
             'kelurahan' => 'required|string|max:255',
         ]);
 
-        $fotoProfilePath = $request->file('profile')->store('public/foto_profile');
-        $fotoBannerPath = $request->file('banner')->store('public/banner_profile');
+
 
         $keahlian = $request->input('keahlian');
         $keahlianArray = explode(",", $keahlian);
@@ -152,22 +151,41 @@ class profileUserController extends Controller
         $sertifikasiArray = array_filter($sertifikasiArray, fn($value) => !empty($value));
 
         $profileUser = ProfileUser::findOrFail($id);
+        // dd($profileUser->user_id);
 
-        $profileUser->foto_profile = $fotoProfilePath;
-        $profileUser->banner = $fotoBannerPath;
-        $profileUser->slogan = $request->input('slogan');
-        $profileUser->jenis_kelamin = $request->input('jenis_kelamin');
-        $profileUser->no_telp = $request->input('no_telp');
-        $profileUser->keahlian = $keahlianArray;
-        $profileUser->pengalaman = $pengalamanArray;
-        $profileUser->pendidikan = $pendidikanArray;
-        $profileUser->sertifikasi = $sertifikasiArray;
-        $profileUser->provinsi = $request->input('provinsi');
-        $profileUser->kota = $request->input('kota');
-        $profileUser->kecamatan = $request->input('kecamatan');
-        $profileUser->kelurahan = $request->input('kelurahan');
-        $profileUser->save();
+        if (isset($request->profile) != null) {
 
-        return redirect()->route('profileUser.index',['id'=>$id]);
+            $fotoProfilePath = $request->file('profile')->store('public/foto_profile');
+            $fotoBannerPath = $request->file('banner')->store('public/banner_profile');
+            $profileUser->foto_profile = $fotoProfilePath;
+            $profileUser->banner = $fotoBannerPath;
+            $profileUser->slogan = $request->input('slogan');
+            $profileUser->jenis_kelamin = $request->input('jenis_kelamin');
+            $profileUser->no_telp = $request->input('no_telp');
+            $profileUser->keahlian = $keahlianArray;
+            $profileUser->pengalaman = $pengalamanArray;
+            $profileUser->pendidikan = $pendidikanArray;
+            $profileUser->sertifikasi = $sertifikasiArray;
+            $profileUser->provinsi = $request->input('provinsi');
+            $profileUser->kota = $request->input('kota');
+            $profileUser->kecamatan = $request->input('kecamatan');
+            $profileUser->kelurahan = $request->input('kelurahan');
+            $profileUser->save();
+        } else {
+            $profileUser->slogan = $request->input('slogan');
+            $profileUser->jenis_kelamin = $request->input('jenis_kelamin');
+            $profileUser->no_telp = $request->input('no_telp');
+            $profileUser->keahlian = $keahlianArray;
+            $profileUser->pengalaman = $pengalamanArray;
+            $profileUser->pendidikan = $pendidikanArray;
+            $profileUser->sertifikasi = $sertifikasiArray;
+            $profileUser->provinsi = $request->input('provinsi');
+            $profileUser->kota = $request->input('kota');
+            $profileUser->kecamatan = $request->input('kecamatan');
+            $profileUser->kelurahan = $request->input('kelurahan');
+            $profileUser->save();
+        }
+
+        return redirect()->route('profileUser.index', ['id' => $profileUser->user_id]);
     }
 }

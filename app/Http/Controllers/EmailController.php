@@ -79,9 +79,11 @@ class EmailController extends Controller
         $user = User::find(Auth::id());
         $request->validate([
             'password_sekarang' => 'required',
-            'password_baru' => 'required|min:8|confirmed',
+            'password_baru' => 'required|min:8',
             'konfirmasi_password'=> 'required|min:8'
         ]);
+
+        // dd($request->all());
 
         if (!Hash::check($request->password_sekarang, $user->password)) {
             return back()->withErrors(['password_sekarang' => 'Password saat ini tidak sesuai.']);

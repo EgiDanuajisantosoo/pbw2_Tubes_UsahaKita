@@ -11,7 +11,17 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
-                <img class="w-10 h-10 rounded-full" src="{{ asset('img/defaultProfil.png') }}" alt="user photo">
+                @auth
+                    <img class="w-10 h-10 rounded-full"
+                        src="{{ optional(Auth::user()->profile)->foto_profile
+                            ? asset('storage/' . Auth::user()->profile->foto_profile)
+                            : asset('img/defaultProfil.png') }}"
+                        alt="user photo">
+                @else
+                    <img class="w-10 h-10 rounded-full" src="{{ asset('img/defaultProfil.png') }}" alt="user photo">
+                @endauth
+
+
             </button>
             <!-- Dropdown menu -->
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow light:bg-gray-700 light:divide-gray-600"

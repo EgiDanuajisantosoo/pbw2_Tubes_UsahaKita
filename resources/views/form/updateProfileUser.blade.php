@@ -17,14 +17,14 @@
                             @csrf
                             <!-- Cover Image -->
                             <div id='preview_Bgimg'
-                                class="w-full rounded-sm bg-[url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat items-center">
+                                class="w-full rounded-sm bg-cover bg-center bg-no-repeat items-center" style="background-image: url('{{ asset('storage/' . $dataProfile->banner) }}');">
                                 <!-- Profile Image -->
                                 <div id='preview_img' class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat"
-                                    style="background-image: url('{{ asset('img/defaultProfil.jpg') }}');"> 
+                                    style="background-image: url('{{ asset('storage/' . $dataProfile->foto_profile) }}');"> 
                                     <div class="bg-white/90 rounded-full w-6 h-6 text-center ml-28 mt-4">
 
                                         <input type="file" name="profile" id="upload_profile"
-                                            onchange="loadFile(event)" hidden required>
+                                            onchange="loadFile(event)" hidden >
 
                                         <label for="upload_profile">
                                             <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none"
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="flex justify-end">
                                     <!--  -->
-                                    <input type="file" onchange="loadFileBanner(event)" name="banner" id="upload_cover" hidden required>
+                                    <input type="file" onchange="loadFileBanner(event)" name="banner" id="upload_cover" hidden>
 
                                     <div
                                         class="bg-white flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
@@ -186,65 +186,72 @@
         </section>
 
         <script>
+            let prov = '{{ $dataProfile->provinsi }}';
+            let kota = '{{ $dataProfile->kota }}';
+            let kec = '{{ $dataProfile->kecamatan }}';
+            let kel = '{{ $dataProfile->kelurahan }}';
+        
             document.addEventListener("DOMContentLoaded", () => {
-                axios.get('/api/provinces')
-                    .then(response => {
-                        let options = '<option value="">Pilih</option>';
-                        document.getElementById('provinsi').innerHTML = '<option value="">Pilih</option>';
-                        document.getElementById('kecamatan').innerHTML = '<option value="">Pilih</option>';
-                        document.getElementById('kelurahan').innerHTML = '<option value="">Pilih</option>';
-                        response.data.forEach(item => {
-                            options +=
-                                `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                // Memuat data provinsi saat halaman dimuat
+                loadOptions('/api/provinces', 'provinsi', prov).then(() => {
+                    // Memuat data kota berdasarkan provinsi yang terpilih
+                    let selectedProv = document.querySelector('#provinsi option:checked');
+                    if (selectedProv) {
+                        loadOptions(`/api/regencies/${selectedProv.getAttribute('data-id')}`, 'kota', kota).then(() => {
+                            let selectedKota = document.querySelector('#kota option:checked');
+                            if (selectedKota) {
+                                loadOptions(`/api/districts/${selectedKota.getAttribute('data-id')}`, 'kecamatan', kec).then(() => {
+                                    let selectedKec = document.querySelector('#kecamatan option:checked');
+                                    if (selectedKec) {
+                                        loadOptions(`/api/villages/${selectedKec.getAttribute('data-id')}`, 'kelurahan', kel);
+                                    }
+                                });
+                            }
                         });
-                        document.getElementById('provinsi').innerHTML = options;
-                    });
-
+                    }
+                });
+        
+                // Event listener untuk perubahan dropdown
                 document.getElementById('provinsi').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
-                    axios.get(`/api/regencies/${id}`)
-                        .then(response => {
-                            let options = '<option value="">Pilih</option>';
-                            document.getElementById('kecamatan').innerHTML =
-                                '<option value="">Pilih</option>';
-                            document.getElementById('kelurahan').innerHTML =
-                                '<option value="">Pilih</option>';
-                            response.data.forEach(item => {
-                                options +=
-                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
-                            });
-                            document.getElementById('kota').innerHTML = options;
-                        });
+                    loadOptions(`/api/regencies/${id}`, 'kota').then(() => {
+                        clearDropdown('kecamatan');
+                        clearDropdown('kelurahan');
+                    });
                 });
-
+        
                 document.getElementById('kota').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
-                    axios.get(`/api/districts/${id}`)
-                        .then(response => {
-                            let options = '<option value="">Pilih</option>';
-                            document.getElementById('kelurahan').innerHTML =
-                                '<option value="">Pilih</option>';
-                            response.data.forEach(item => {
-                                options +=
-                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
-                            });
-                            document.getElementById('kecamatan').innerHTML = options;
-                        });
+                    loadOptions(`/api/districts/${id}`, 'kecamatan').then(() => {
+                        clearDropdown('kelurahan');
+                    });
                 });
-
+        
                 document.getElementById('kecamatan').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
-                    axios.get(`/api/villages/${id}`)
-                        .then(response => {
-                            let options = '<option value="">Pilih</option>';
-                            response.data.forEach(item => {
-                                options += `<option value="${item.name}">${item.name}</option>`;
-                            });
-                            document.getElementById('kelurahan').innerHTML = options;
-                        });
+                    loadOptions(`/api/villages/${id}`, 'kelurahan');
                 });
             });
+        
+            async function loadOptions(url, elementId, selectedValue = '') {
+                try {
+                    const response = await axios.get(url);
+                    let options = '<option value="">Pilih</option>';
+                    response.data.forEach(item => {
+                        options += `<option value="${item.name}" data-id="${item.id}" ${item.name === selectedValue ? 'selected' : ''}>${item.name}</option>`;
+                    });
+                    document.getElementById(elementId).innerHTML = options;
+                } catch (error) {
+                    console.error(`Gagal memuat data untuk ${elementId}:`, error);
+                }
+            }
+        
+            function clearDropdown(elementId) {
+                document.getElementById(elementId).innerHTML = '<option value="">Pilih</option>';
+            }
         </script>
+        
+        
         <script>
             var loadFile = function(event) {
                 var input = event.target;
@@ -283,5 +290,6 @@
                 }
             };
         </script>
+        
     </x-slot:content>
 </x-layout>

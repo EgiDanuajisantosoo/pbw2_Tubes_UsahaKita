@@ -167,7 +167,7 @@
                                             @endforeach
                                         </td> --}}
                                         <td class="px-6 py-4 border-b">
-                                            {{ $lowongan->provinsi }},{{ $lowongan->kota }},{{ $lowongan->kelurahan }},{{ $lowongan->kelurahan }}
+                                            {{ $lowongan->provinsi }},{{ $lowongan->kota }},{{ $lowongan->kecamatan }},{{ $lowongan->kelurahan }}
                                         </td>
 
                                         <td class="border px-4 py-2">
@@ -181,11 +181,13 @@
                                             @endforelse
                                         </td>
 
+
                                         <td class="border px-4 py-2">
                                             <div class="flex justify-center space-x-2">
                                                 <!-- Tombol Edit -->
                                                 <button
-                                                    @click="selectedLowongan = {{ $lowongan }}; openEditLowongan = true"
+                                                    @click="selectedLowongan = {{ $lowongan }};openEditLowongan = true"
+                                                    onclick="editData('{{ $lowongan->provinsi }}','{{ $lowongan->kota }}','{{ $lowongan->kecamatan }}','{{ $lowongan->kelurahan }}');tag('{{ $lowongan->id }}','{{ $tagSpesifikasiLowongan }}','{{ $tag }}');formatModal('{{ $lowongan->modal_usaha }}');ReqBen('{{ $lowongan->requirement }}','{{ $lowongan->benefit }}')"
                                                     class="flex items-center px-3 py-3 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200">
                                                     <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,8 +196,101 @@
                                                             d="M12 20h9M16.5 3.5l5 5m-5-5L3 18v5h5L21 6.5z" />
                                                     </svg>
                                                 </button>
+                                                <script>
+                                                    function ReqBen(req, ben) {
+
+                                                        let formatReq = '' ;
+                                                        let formatBen = '';
+                                                        if (typeof req == "string" && typeof ben == "string") {
+                                                            req = JSON.parse(req);
+                                                            ben = JSON.parse(ben);
+                                                        }
+
+                                                        let noReq = 0;
+                                                        let noBen = 0;
+                                                        req.forEach(element => {
+                                                            noReq++;
+                                                            if (req.length-1 == 0 || noReq == req.length) {
+                                                                    formatReq += element
+                                                                }else{
+                                                                    formatReq += element +','
+                                                                }
+                                                            });
+                                                            document.getElementById('EditFormatRequirement').value = formatReq;
+
+                                                            ben.forEach(element => {
+                                                            noBen++;
+                                                            if (ben.length-1 == 0 || noBen == ben.length) {
+                                                                    formatBen += element
+                                                                }else{
+                                                                    formatBen += element +','
+                                                                }
+                                                            });
+                                                            document.getElementById('EditFormatBenefit').value = formatBen;
+                                                    }
+
+                                                    function formatModal(b) {
+                                                        
+                                                        if (typeof b == "string") {
+                                                            b = parseFloat(b);
+                                                        }
+                                                        
+                                                        // Format angka menjadi format Rupiah
+                                                        let format = `Rp. ${b.toLocaleString('id-ID', { minimumFractionDigits: 0 })}`;
+                                                        // console.log(format);
+
+                                                        // Tampilkan hasil di elemen dengan id 'format'
+                                                        document.getElementById('formatRp').value = format;
+
+                                                    }
+
+                                                    function tag(id, tagData, allTag) {
+                                                        let checkbox = ''; // Variabel untuk menyimpan checkbox HTML
+                                                        let resultsTagData = []; // Array untuk menyimpan hasil tagData yang sesuai
+
+                                                        if (typeof tagData === "string" && typeof allTag === "string") {
+                                                            try {
+                                                                // Parsing JSON string menjadi array JavaScript
+                                                                allTag = JSON.parse(allTag);
+                                                                tagData = JSON.parse(tagData);
+
+                                                                // Gunakan filter untuk mendapatkan semua elemen yang sesuai
+                                                                resultsTagData = tagData.filter((tag) => tag.lowongan_id == id);
+                                                            } catch (e) {
+                                                                console.error("Error parsing tagData:", e);
+                                                            }
+                                                        }
+
+                                                        // Buat Set untuk menyimpan ID yang sudah diproses (menghindari duplikasi)
+                                                        const processedIds = new Set();
+
+                                                        // Iterasi melalui allTag dan tambahkan elemen checkbox
+                                                        allTag.forEach(element2 => {
+                                                            const isChecked = resultsTagData.some(element1 => element1.tag_id === element2.id);
+
+                                                            // Hanya tambahkan elemen jika ID belum diproses
+                                                            if (!processedIds.has(element2.id)) {
+                                                                checkbox += `
+                                                                <div class="flex">
+                                                                    <input type="checkbox" name="tags[]" value="${element2.id}" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" ${isChecked ? 'checked' : ''}>
+                                                                    <label class="text-sm text-gray-500 ms-3">${element2.nama_tag}</label>
+                                                                </div>
+                                                                `;
+
+                                                                // Tandai ID sebagai sudah diproses
+                                                                processedIds.add(element2.id);
+                                                            }
+                                                        });
+
+                                                        // Masukkan hasil checkbox ke dalam elemen HTML
+                                                        document.getElementById('checkBox').innerHTML = checkbox;
+                                                    }
+                                                </script>
+
+
                                                 <!-- Tombol Hapus -->
-                                                <button onclick="hapusData('{{ $lowongan->nama_lowongan }}','{{ route('deleteLowongan',['id' => $lowongan->id]) }}')"
+                                                <button
+                                                    onclick="hapusData('{{ $lowongan->nama_lowongan }}','{{ route('deleteLowongan', ['id' => $lowongan->id]) }}')"
                                                     class="flex items-center px-3 py-3 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -216,6 +311,7 @@
                             </tbody>
                         </table>
                     </div>
+
 
                     <!-- Modal Edit Lowongan -->
                     <div x-show="openEditLowongan"
@@ -238,81 +334,100 @@
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Jumlah Lowongan</label>
-                                    <input type="number" name="jumlah" x-model="selectedLowongan.jumlah_lowongan"
+                                    <input type="text" name="jumlah" x-model="selectedLowongan.jumlah_lowongan"
                                         min="1" class="w-full p-2 border rounded">
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Modal Usaha</label>
-                                    <input type="number" name="modal_usaha" x-model="selectedLowongan.modal_usaha"
-                                        min="1" class="w-full p-2 border rounded">
+                                    <input type="text" name="modal_usaha"
+                                        id="formatRp" min="1" class="w-full p-2 border rounded">
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Requirement</label>
-                                    <textarea name="requirement" rows="3" class="w-full p-2 border rounded">
-@isset($requirementsArray)
-@foreach ($requirementsArray as $requirement)
-{{ $requirement }},
-@endforeach
-@else
-Tidak ada data yang tersedia.
-@endisset
-</textarea>
+                                    <textarea name="requirement" id="EditFormatRequirement" rows="3"
+                                        class="w-full p-2 border rounded"></textarea>
                                 </div>
                                 <div>
                                     <label class="block text-gray-700">Benefit</label>
-                                    <textarea name="benefit" rows="2" class="w-full p-2 border rounded">
-@isset($benefitArray)
-@foreach ($benefitArray as $requirement)
-{{ $requirement }},
-@endforeach
-@else
-Tidak ada data yang tersedia.
-@endisset
-</textarea>
+                                    <textarea name="benefit" id="EditFormatBenefit" rows="2" class="w-full p-2 border rounded"></textarea>
                                 </div>
                                 <div class="md:flex md:row md:space-x-4 w-full text-xs">
                                     <div class="w-full flex flex-col mb-3">
                                         <label class="font-semibold text-gray-600 py-2">Provinsi:</label>
-                                        <select
-                                            class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                            name="provinsi" id="Editprovinsi" x-model="selectedLowongan.provinsi"
-                                            required>
-                                            <option value="" selected>Pilih</option>
+                                        <select class="block w-full p-2 border rounded" id="Editprovinsi"
+                                            name="provinsi" x-model="selectedLowongan.provinsi" required>
+                                            <option :value="selectedLowongan.provinsi" selected></option>
                                         </select>
                                     </div>
                                     <div class="w-full flex flex-col mb-3">
                                         <label class="font-semibold text-gray-600 py-2">Kabupaten/Kota:</label>
-                                        <select
-                                            class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                            name="kota" id="Editkota" x-model="selectedLowongan.kota" required>
-                                            <option value="">Pilih</option>
+                                        <select class="block w-full p-2 border rounded" id="Editkota" name="kota"
+                                            x-model="selectedLowongan.kota" required>
+                                            <option :value="selectedLowongan.kota" selected>
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="md:flex md:row md:space-x-4 w-full text-xs">
                                     <div class="w-full flex flex-col mb-3">
                                         <label class="font-semibold text-gray-600 py-2">Kecamatan:</label>
-                                        <select
-                                            class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                            name="kecamatan" id="Editkecamatan" x-model="selectedLowongan.kecamatan"
-                                            required>
-                                            <option value="">Pilih</option>
+                                        <select class="block w-full p-2 border rounded" id="Editkecamatan"
+                                            name="kecamatan" x-model="selectedLowongan.kecamatan" required>
+                                            <option :value="selectedLowongan.kecamatan" selected>
+                                                {{-- {{ $lowongan->provinsi }} --}}
+                                            </option>
+                                            {{-- <option value="">Pilih Kecamatan</option> --}}
+                                            {{-- @foreach ($tableLowongan as $lowongan)
+                                                <option value="{{ $lowongan->kecamatan }}" :selected="selectedLowongan.kecamatan === '{{ $lowongan->kecamatan }}'">
+                                                    {{ $lowongan->kecamatan }}
+                                                </option>
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                     <div class="w-full flex flex-col mb-3">
                                         <label class="font-semibold text-gray-600 py-2">Kelurahan/Desa:</label>
-                                        <select
-                                            class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                            name="kelurahan" id="Editkelurahan" x-model="selectedLowongan.kelurahan"
-                                            required>
-                                            <option value="">Pilih</option>
+                                        <select class="block w-full p-2 border rounded" id="Editkelurahan"
+                                            name="kelurahan" x-model="selectedLowongan.kelurahan" required>
+                                            <option :value="selectedLowongan.kelurahan" selected>
+                                                {{-- {{ $lowongan->provinsi }} --}}
+                                            </option>
+                                            {{-- <option value="">Pilih Kelurahan</option> --}}
+                                            {{-- @foreach ($tableLowongan as $lowongan)
+                                                <option value="{{ $lowongan->kelurahan }}" :selected="selectedLowongan.kelurahan === '{{ $lowongan->kelurahan }}'">
+                                                    {{ $lowongan->kelurahan }}
+                                                </option>
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
                                 <label class="font-semibold text-gray-600 py-2">Tag<abbr
                                         title="required">*</abbr></label>
-                                <div class="grid grid-rows-4 grid-flow-col gap-4">
-                                    @foreach ($tag as $tags)
+                                <div class="grid grid-rows-4 grid-flow-col gap-4" id="checkBox">
+                                    {{-- <div class="flex" >
+                                        <input type="checkbox" name="tags[]" value=""
+                                            id="tagLowongan"
+                                            class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                        <label class="text-sm text-gray-500 ms-3" id="tagLowongan">abc</label>
+                                    </div> --}}
+                                    {{-- @forelse ($lowongan->tags as $no=>$tagTambah)
+                                        <div class="flex">
+                                            <input type="checkbox" name="tags[]" value="{{ $tagTambah->id }}"
+                                                id="tagLowongan"
+                                                class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                id="hs-checkbox-group-{{ $tagTambah->id }}">
+                                            <label for="hs-checkbox-group-{{ $tagTambah->id }}"
+                                                
+                                                class="text-sm text-gray-500 ms-3" id="tagLowongan">abc</label>
+                                            <input type="checkbox" name="tags[]" value="{{ $tagTambah->id }}"
+                                                id="tagLowongan"
+                                                class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                id="hs-checkbox-group-{{ $tagTambah->id }}">
+                                            <label for="hs-checkbox-group-{{ $tagTambah->id }}"
+                                                class="text-sm text-gray-500 ms-3">{{ $tagTambah->nama_tag }}</label>
+                                        </div>
+                                    @empty
+                                    @endforelse --}}
+                                    {{-- @foreach ($allTags as $tags)
                                         <div class="flex">
                                             <input type="checkbox" name="tags[]" value="{{ $tags->id }}"
                                                 class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
@@ -320,7 +435,7 @@ Tidak ada data yang tersedia.
                                             <label for="hs-checkbox-group-{{ $tags->id }}"
                                                 class="text-sm text-gray-500 ms-3">{{ $tags->nama_tag }}</label>
                                         </div>
-                                    @endforeach
+                                    @endforeach --}}
                                 </div>
 
                                 <div class="flex justify-end gap-2">
@@ -402,64 +517,179 @@ Tidak ada data yang tersedia.
         </script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                axios.get('/api/provinces')
+            // let lo;
+            // let editProv = document.getElementById('Editprovinsi');
+
+            async function editData(provinsi, kota, kecamatan, kelurahan, lowonganId) {
+
+                // Panggilan API untuk mendapatkan provinsi
+                await axios.get('/api/provinces')
                     .then(response => {
-                        let options = '<option value="">Pilih</option>';
+                        let options = `<option value="">Pilih</option>`;
                         document.getElementById('Editprovinsi').innerHTML = '<option value="">Pilih</option>';
+                        document.getElementById('Editkota').innerHTML = '<option value="">Pilih</option>';
                         document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
                         document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+                        // let itemProv = "";
+
                         response.data.forEach(item => {
-                            options +=
-                                `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                            if (item.name == provinsi) {
+                                // console.log("Provinsi dari API:", item.name);
+                                // console.log("Provinsi yang dipilih:", provinsi);
+                                // itemProv = item.name;
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                                // var option = document.createElement("option");
+                                // option.text = item.name;
+                                // option.selected = true;
+                                // document.getElementById('Editprovinsi').add(option);
+                            } else {
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                                // var option = document.createElement("option");
+                                // option.text = item.name;
+                                // document.getElementById('Editprovinsi').add(option);
+                            }
                         });
+                        // console.log(response.data)
                         document.getElementById('Editprovinsi').innerHTML = options;
+                        // document.getElementById('Editprovinsi').click();
+                        // document.querySelector(`[value="${itemProv}"]`).selected = true;
+                        // console.log("Indeks Provinsi Terpilih: " + document.getElementById('Editprovinsi')
+                        //     .selectedIndex)
+                    });
+                let editProv = await document.getElementById('Editprovinsi');
+                // await console.log(editProv)
+                const idProv = await editProv.options[editProv.selectedIndex].getAttribute('data-id');
+                // await console.log(idProv)
+                await axios.get(`/api/regencies/${idProv}`)
+                    .then(response => {
+                        let options = `<option value="">Pilih</option>`;
+                        // document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
+                        // document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                        response.data.forEach(item => {
+                            if (item.name == kota) {
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                            } else {
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                            }
+                        });
+                        document.getElementById('Editkota').innerHTML = options;
                     });
 
+                // Event listener untuk perubahan pada provinsi
                 document.getElementById('Editprovinsi').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
                     axios.get(`/api/regencies/${id}`)
-                        .then(response => {
-                            let options = '<option value="">Pilih</option>';
-                            document.getElementById('Editkecamatan').innerHTML =
-                                '<option value="">Pilih</option>';
-                            document.getElementById('Editkelurahan').innerHTML =
-                                '<option value="">Pilih</option>';
-                            response.data.forEach(item => {
-                                options +=
-                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                        .then(responseA => {
+                            let options = `<option value="">Pilih</option>`;
+                            // document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
+                            // document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                            responseA.data.forEach(item => {
+                                if (item.name == kota) {
+                                    options +=
+                                        `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                                } else {
+                                    options +=
+                                        `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                                }
                             });
                             document.getElementById('Editkota').innerHTML = options;
                         });
                 });
 
+                let editKota = await document.getElementById("Editkota")
+                const idKota = await editKota.options[editKota.selectedIndex].getAttribute('data-id');
+                await axios.get(`/api/districts/${idKota}`)
+                    .then(response => {
+                        let options = `<option value="">Pilih</option>`;
+                        document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                        response.data.forEach(item => {
+                            if (item.name == kecamatan) {
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                            } else {
+                                options +=
+                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                            }
+                        });
+                        document.getElementById('Editkecamatan').innerHTML = options;
+                    });
+
+                // Event listener untuk perubahan pada kota
                 document.getElementById('Editkota').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
                     axios.get(`/api/districts/${id}`)
                         .then(response => {
-                            let options = '<option value="">Pilih</option>';
+                            let options = `<option value="">Pilih</option>`;
                             document.getElementById('Editkelurahan').innerHTML =
                                 '<option value="">Pilih</option>';
+
                             response.data.forEach(item => {
-                                options +=
-                                    `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                                if (item.name == kecamatan) {
+                                    options +=
+                                        `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                                } else {
+                                    options +=
+                                        `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                                }
                             });
                             document.getElementById('Editkecamatan').innerHTML = options;
                         });
                 });
 
+                let editKecamatan = await document.getElementById("Editkecamatan")
+                const idKecamatan = await editKecamatan.options[editKecamatan.selectedIndex].getAttribute('data-id');
+                await axios.get(`/api/villages/${idKecamatan}`)
+                    .then(response => {
+                        let options = `<option value="">Pilih</option>`;
+                        response.data.forEach(item => {
+                            if (item.name == kelurahan) {
+                                options +=
+                                    `<option value="${item.name}" selected>${item.name}</option>`;
+                            } else {
+                                options += `<option value="${item.name}">${item.name}</option>`;
+                            }
+                        });
+                        document.getElementById('Editkelurahan').innerHTML = options;
+                    });
+
+                // Event listener untuk perubahan pada kecamatan
                 document.getElementById('Editkecamatan').addEventListener('change', function() {
                     const id = this.options[this.selectedIndex].getAttribute('data-id');
                     axios.get(`/api/villages/${id}`)
                         .then(response => {
-                            let options = '<option value="">Pilih</option>';
+                            let options = `<option value="">Pilih</option>`;
                             response.data.forEach(item => {
-                                options += `<option value="${item.name}">${item.name}</option>`;
+                                if (item.name == kelurahan) {
+                                    options +=
+                                        `<option value="${item.name}" selected>${item.name}</option>`;
+                                } else {
+                                    options += `<option value="${item.name}">${item.name}</option>`;
+                                }
                             });
                             document.getElementById('Editkelurahan').innerHTML = options;
                         });
                 });
-            });
+            }
+
+            // Event listener untuk tombol Edit Data
+            // document.getElementById('editDataBtn').addEventListener('click', function() {
+            //     let provinsi = document.getElementById('provinsi').value;
+            //     let kota = document.getElementById('kota').value;
+            //     let kecamatan = document.getElementById('kecamatan').value;
+            //     let kelurahan = document.getElementById('kelurahan').value;
+            //     // Memanggil fungsi editData dengan parameter yang dipilih
+            //     editData(provinsi, kota, kecamatan, kelurahan);
+            // });
+
+            // console.log(lo);
+            // alert(`Provinsi yang dipilih: ${lo}`);
         </script>
 
         {{-- Form Edit Lowongan --}}
@@ -573,7 +803,7 @@ Tidak ada data yang tersedia.
         </script>
 
         <script>
-            function hapusData(namaLowongan,actionForm) {
+            function hapusData(namaLowongan, actionForm) {
                 Swal.fire({
                     title: "Anda Yakin?",
                     text: "Ingin menghapus lowongan " + namaLowongan,

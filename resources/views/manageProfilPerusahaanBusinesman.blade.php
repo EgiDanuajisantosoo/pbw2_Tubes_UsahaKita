@@ -21,6 +21,7 @@
                         <!-- Button to Open Modal Perusahaan -->
                         <div class="flex justify-end md:mb-[30px]">
                             <button @click="openEditProfilePerusahaan = true"
+                            onclick="editData('{{ $dataPerusahaan->provinsi }}','{{ $dataPerusahaan->kota }}','{{ $dataPerusahaan->kecamatan }}','{{ $dataPerusahaan->kelurahan }}')"
                                 class="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700">
                                 Edit Profil
                             </button>
@@ -114,7 +115,7 @@
                                                             title="required">*</abbr></label>
                                                     <select
                                                         class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                                        name="provinsi" id="provinsi" required>
+                                                        name="provinsi" id="Editprovinsi" required>
                                                         <option value="">Pilih</option>
                                                     </select>
                                                     @error('provinsi')
@@ -126,7 +127,7 @@
                                                             title="required">*</abbr></label>
                                                     <select
                                                         class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                                        name="kota" id="kota" required>
+                                                        name="kota" id="Editkota" required>
                                                         <option value="">Pilih</option>
                                                     </select>
                                                     @error('kota')
@@ -140,7 +141,7 @@
                                                             title="required">*</abbr></label>
                                                     <select
                                                         class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                                        name="kecamatan" id="kecamatan" required>
+                                                        name="kecamatan" id="Editkecamatan" required>
                                                         <option value="">Pilih</option>
                                                     </select>
                                                     @error('kecamatan')
@@ -152,7 +153,7 @@
                                                             title="required">*</abbr></label>
                                                     <select
                                                         class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                                                        name="kelurahan" id="kelurahan" required>
+                                                        name="kelurahan" id="Editkelurahan" required>
                                                         <option value="">Pilih</option>
                                                     </select>
                                                     @error('kelurahan')
@@ -163,7 +164,7 @@
                                         </div>
                                         <div>
                                             <label class="block text-gray-700 font-semibold mb-2">Detail Alamat</label>
-                                            <input type="text" name="alamat_lengkap" placeholder="Jl.abc"
+                                            <input type="text" name="alamat_lengkap" placeholder="Jl.abc" value="{{ $dataPerusahaan->alamat_lengkap }}"
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         </div>
 
@@ -302,5 +303,181 @@
                 });
             });
         </script>
+
+<script>
+    // let lo;
+    // let editProv = document.getElementById('Editprovinsi');
+
+    async function editData(provinsi, kota, kecamatan, kelurahan, lowonganId) {
+
+        // Panggilan API untuk mendapatkan provinsi
+        await axios.get('/api/provinces')
+            .then(response => {
+                let options = `<option value="">Pilih</option>`;
+                document.getElementById('Editprovinsi').innerHTML = '<option value="">Pilih</option>';
+                document.getElementById('Editkota').innerHTML = '<option value="">Pilih</option>';
+                document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
+                document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+                // let itemProv = "";
+
+                response.data.forEach(item => {
+                    if (item.name == provinsi) {
+                        // console.log("Provinsi dari API:", item.name);
+                        // console.log("Provinsi yang dipilih:", provinsi);
+                        // itemProv = item.name;
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                        // var option = document.createElement("option");
+                        // option.text = item.name;
+                        // option.selected = true;
+                        // document.getElementById('Editprovinsi').add(option);
+                    } else {
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                        // var option = document.createElement("option");
+                        // option.text = item.name;
+                        // document.getElementById('Editprovinsi').add(option);
+                    }
+                });
+                // console.log(response.data)
+                document.getElementById('Editprovinsi').innerHTML = options;
+                // document.getElementById('Editprovinsi').click();
+                // document.querySelector(`[value="${itemProv}"]`).selected = true;
+                // console.log("Indeks Provinsi Terpilih: " + document.getElementById('Editprovinsi')
+                //     .selectedIndex)
+            });
+        let editProv = await document.getElementById('Editprovinsi');
+        // await console.log(editProv)
+        const idProv = await editProv.options[editProv.selectedIndex].getAttribute('data-id');
+        // await console.log(idProv)
+        await axios.get(`/api/regencies/${idProv}`)
+            .then(response => {
+                let options = `<option value="">Pilih</option>`;
+                // document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
+                // document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                response.data.forEach(item => {
+                    if (item.name == kota) {
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                    } else {
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                    }
+                });
+                document.getElementById('Editkota').innerHTML = options;
+            });
+
+        // Event listener untuk perubahan pada provinsi
+        document.getElementById('Editprovinsi').addEventListener('change', function() {
+            const id = this.options[this.selectedIndex].getAttribute('data-id');
+            axios.get(`/api/regencies/${id}`)
+                .then(responseA => {
+                    let options = `<option value="">Pilih</option>`;
+                    // document.getElementById('Editkecamatan').innerHTML = '<option value="">Pilih</option>';
+                    // document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                    responseA.data.forEach(item => {
+                        if (item.name == kota) {
+                            options +=
+                                `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                        } else {
+                            options +=
+                                `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                        }
+                    });
+                    document.getElementById('Editkota').innerHTML = options;
+                });
+        });
+
+        let editKota = await document.getElementById("Editkota")
+        const idKota = await editKota.options[editKota.selectedIndex].getAttribute('data-id');
+        await axios.get(`/api/districts/${idKota}`)
+            .then(response => {
+                let options = `<option value="">Pilih</option>`;
+                document.getElementById('Editkelurahan').innerHTML = '<option value="">Pilih</option>';
+
+                response.data.forEach(item => {
+                    if (item.name == kecamatan) {
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                    } else {
+                        options +=
+                            `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                    }
+                });
+                document.getElementById('Editkecamatan').innerHTML = options;
+            });
+
+        // Event listener untuk perubahan pada kota
+        document.getElementById('Editkota').addEventListener('change', function() {
+            const id = this.options[this.selectedIndex].getAttribute('data-id');
+            axios.get(`/api/districts/${id}`)
+                .then(response => {
+                    let options = `<option value="">Pilih</option>`;
+                    document.getElementById('Editkelurahan').innerHTML =
+                        '<option value="">Pilih</option>';
+
+                    response.data.forEach(item => {
+                        if (item.name == kecamatan) {
+                            options +=
+                                `<option value="${item.name}" data-id="${item.id}" selected>${item.name}</option>`;
+                        } else {
+                            options +=
+                                `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`;
+                        }
+                    });
+                    document.getElementById('Editkecamatan').innerHTML = options;
+                });
+        });
+
+        let editKecamatan = await document.getElementById("Editkecamatan")
+        const idKecamatan = await editKecamatan.options[editKecamatan.selectedIndex].getAttribute('data-id');
+        await axios.get(`/api/villages/${idKecamatan}`)
+            .then(response => {
+                let options = `<option value="">Pilih</option>`;
+                response.data.forEach(item => {
+                    if (item.name == kelurahan) {
+                        options +=
+                            `<option value="${item.name}" selected>${item.name}</option>`;
+                    } else {
+                        options += `<option value="${item.name}">${item.name}</option>`;
+                    }
+                });
+                document.getElementById('Editkelurahan').innerHTML = options;
+            });
+
+        // Event listener untuk perubahan pada kecamatan
+        document.getElementById('Editkecamatan').addEventListener('change', function() {
+            const id = this.options[this.selectedIndex].getAttribute('data-id');
+            axios.get(`/api/villages/${id}`)
+                .then(response => {
+                    let options = `<option value="">Pilih</option>`;
+                    response.data.forEach(item => {
+                        if (item.name == kelurahan) {
+                            options +=
+                                `<option value="${item.name}" selected>${item.name}</option>`;
+                        } else {
+                            options += `<option value="${item.name}">${item.name}</option>`;
+                        }
+                    });
+                    document.getElementById('Editkelurahan').innerHTML = options;
+                });
+        });
+    }
+
+    // Event listener untuk tombol Edit Data
+    // document.getElementById('editDataBtn').addEventListener('click', function() {
+    //     let provinsi = document.getElementById('provinsi').value;
+    //     let kota = document.getElementById('kota').value;
+    //     let kecamatan = document.getElementById('kecamatan').value;
+    //     let kelurahan = document.getElementById('kelurahan').value;
+    //     // Memanggil fungsi editData dengan parameter yang dipilih
+    //     editData(provinsi, kota, kecamatan, kelurahan);
+    // });
+
+    // console.log(lo);
+    // alert(`Provinsi yang dipilih: ${lo}`);
+</script>
     </x-slot:content>
 </x-layout>

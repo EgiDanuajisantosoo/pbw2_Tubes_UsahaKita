@@ -39,7 +39,7 @@
 
                         <a href="/profilePerusahaan/{{ $perusahaans->id }}">
                             <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
-                                @if ($count && $count->total_lowongan != 0)
+                                @if ($count && $count->foto_perusahaan != 0)
                                     <img src="{{ asset('storage/' . ($count->foto_perusahaan ?? 'default.jpg')) }}"
                                         alt="Danone Logo" class="w-16 h-16 mb-2">
                                 @else

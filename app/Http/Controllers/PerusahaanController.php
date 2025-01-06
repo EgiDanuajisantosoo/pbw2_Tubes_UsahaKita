@@ -19,10 +19,11 @@ class PerusahaanController extends Controller
         $query = $request->input('query');
 
         if ($query) {
-            $perusahaan = Perusahaan::where('perusahaan.nama_perusahaan', 'LIKE', "%{$query}%") // Menambahkan alias 'perusahaan.'
-                ->orWhere('perusahaan.provinsi', 'LIKE', "%{$query}%") // Menambahkan alias 'perusahaan.'
+            $perusahaan = Perusahaan::where('perusahaan.nama_perusahaan', 'LIKE', "%{$query}%")->where('perusahaan.status','terverifikasi')
+                ->orWhere('perusahaan.provinsi', 'LIKE', "%{$query}%")
                 ->leftJoin('lowongan', 'perusahaan.id', '=', 'lowongan.perusahaan_id')
                 ->select('perusahaan.id', 'perusahaan.nama_perusahaan', 'perusahaan.provinsi', DB::raw('SUM(lowongan.jumlah_lowongan) as total_lowongan'))
+                ->where('perusahaan.status','terverifikasi')
                 ->groupBy('perusahaan.id', 'perusahaan.nama_perusahaan', 'perusahaan.provinsi')
                 ->paginate(10);
 
@@ -41,7 +42,7 @@ class PerusahaanController extends Controller
             $perusahaan = Perusahaan::with(['lowongan' => function ($query) {
                 $query->select('perusahaan_id', DB::raw('SUM(jumlah_lowongan) as total_lowongan'))
                     ->groupBy('perusahaan_id');
-            }])->paginate(10);
+            }])->where('status','terverifikasi')->paginate(10);
 
             $count = 0;
         }

@@ -49,19 +49,38 @@ class PerusahaanResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('pemilik_perusahaan')->searchable(),
+                // TextColumn::make('user_id'),
+                TextColumn::make('pemilik_perusahaan')->url(fn($record) => route('profileUser.index', ['id' => $record->user_id]))
+                ->searchable(),
+                TextColumn::make('nama_perusahaan')->url(fn($record) => route('profilPerusahaan', ['id' => $record->id]))
+                ->searchable(),
                 TextColumn::make('email_perusahaan')->searchable(),
-                TextColumn::make('nama_perusahaan')->searchable(),
                 TextColumn::make('no_telp'),
                 // SpatieMediaLibraryFileUpload::make('image')
                 //     ->url(fn($record) => asset('storage/' . $record->foto_ktp))
                 //     ->size(100),
-                ImageColumn::make('foto_ktp')
-                    ->url(fn($record) => asset('storage/' . $record->foto_ktp))
-                    ->size(100),
-                ImageColumn::make('foto_perusahaan')
-                    ->url(fn($record) => asset('storage/' . $record->foto_perusahaan))
-                    ->size(100),
+                // ImageColumn::make('foto_ktp')
+                //     ->url(fn($record) => asset('storage/' . $record->foto_ktp))
+                //     ->getStateUsing(fn ($record) => asset('storage/foto_ktp/' . basename($record->foto_ktp)))
+                //     ->size(100),
+                TextColumn::make('foto_ktp')
+                    ->label('Foto KTP')
+                    ->html()
+                    ->getStateUsing(
+                        fn($record) =>
+                        "<img src='" . asset('storage/' . $record->foto_ktp) . "' alt='Foto KTP' style='max-width: 100px; max-height: 100px;'>"
+                    )->url(fn($record) => asset('storage/' . $record->foto_perusahaan)),
+                TextColumn::make('foto_perusahaan')
+                    ->label('Logo Perusahaan')
+                    ->html()
+                    ->getStateUsing(
+                        fn($record) =>
+                        "<img src='" . asset('storage/' . $record->foto_perusahaan) . "' alt='Foto KTP' style='max-width: 100px; max-height: 100px;'>"
+                    )->url(fn($record) => asset('storage/' . $record->foto_perusahaan)),
+
+                // ImageColumn::make('foto_perusahaan')
+                //     ->url(fn($record) => asset('storage/' . $record->foto_perusahaan))
+                //     ->size(100),
                 TextColumn::make('status')
             ])
             ->filters([

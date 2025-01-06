@@ -28,25 +28,28 @@
 
             <!-- Cards Container -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 min-h-[180px]">
-
-                <!-- Card 2 -->
+                @foreach ($data as $dataBergabung)
                 <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
                     <div class="flex justify-between">
-                        <h3 class="text-2xl font-bold text-gray-700">Company A</h3>
+                        <h3 class="text-2xl font-bold text-gray-700">{{ $dataBergabung->lowongan->perusahaan->nama_perusahaan }}</h3>
                         <p class=" text-xs font-medium bg-green-100 text-green-600 rounded-lg flex justify-center items-center px-6 py-1">
                         Bekerja Sama
                         </p>
                     </div>
-                    <p class="text-gray-500 mt-1">Looking for: Technical Co-Founder</p>
+                    <p class="text-gray-500 mt-1">Nama Lowongan : {{ $dataBergabung->lowongan->nama_lowongan }}</p>
+                    <p class="text-gray-500 mt-1">Modal : {{ $dataBergabung->lowongan->modal_usaha }}</p>
                     <div class="flex gap-3 mt-6">
-                        <button class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+                        <a href="detailLowonganBisnis/{{ $dataBergabung->lowongan->id }}" class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
                             Lihat Lowongan
-                        </button>
+                        </a>
                     </div>
                 </div>
+                @endforeach
+
+                <!-- Card 2 -->
 
                    <!-- Card 2 -->
-                   <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
+                   {{-- <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
                     <div class="flex justify-between">
                         <h3 class="text-2xl font-bold text-gray-700">Company B</h3>
                         <p class=" text-xs font-medium bg-green-100 text-green-600 rounded-lg flex justify-center items-center px-6 py-1">
@@ -59,10 +62,10 @@
                             Lihat Lowongan
                         </button>
                     </div>
-                </div>
+                </div> --}}
 
                    <!-- Card 2 -->
-                   <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
+                   {{-- <div class="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between mt-8">
                     <div class="flex justify-between">
                         <h3 class="text-2xl font-bold text-gray-700">Company C</h3>
                         <p class=" text-xs font-medium bg-red-100 text-red-600 rounded-lg flex justify-center items-center px-6 py-1">
@@ -75,7 +78,7 @@
                             Lihat Lowongan
                         </button>
                     </div>
-                </div>
+                </div> --}}
 
 
 

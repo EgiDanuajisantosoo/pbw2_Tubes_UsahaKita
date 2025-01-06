@@ -19,17 +19,25 @@ class VerifikasiController extends Controller
     public function store (Request $request ,$id) {
         $idUser = User::find(Auth::id(),'id');
         $request->validate([
-            'modal_usaha' => 'required|numeric'
+            'modal_usaha' => 'required|string'
         ]);
+
+        $number = (int) str_replace(['Rp.', '.', ','], '', $request->modal_usaha);
 
         BergabungPerusahaan::create([
             'user_id' => $idUser->id,
             'lowongan_id' => $id,
-            'modal_usaha' => $request->modal_usaha, 
+            'modal_usaha' => $number, 
             'status_permintaaan' => 'pendding'
         ]);
 
         return redirect('/detailLowonganBisnis/'.$id);
+    }
+
+    public function delete($id){
+        BergabungPerusahaan::where([['user_id',Auth::id()],['lowongan_id',$id]])->delete();
+        // dd($a);
+        return redirect()->back();
     }
 
 
@@ -43,7 +51,11 @@ class VerifikasiController extends Controller
         return redirect()->route('listPermintaan');
     }
 
-
+    public function BisnisBerjalan(){
+        $data = BergabungPerusahaan::where([['status_permintaan','diterima'],['user_id',Auth::id()]])->with('lowongan.perusahaan')->get();
+        // dd($data);
+        return view('listBisnisPartner',compact('data'));
+    }
 
 
 }

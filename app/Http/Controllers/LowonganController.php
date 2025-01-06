@@ -46,11 +46,18 @@ class LowonganController extends Controller
     public function create()
     {
         $idPerusahaan = Perusahaan::where('user_id', Auth::id())->first()->id;
+
+        $tagLowongan = Lowongan::where('perusahaan_id', $idPerusahaan)->with('tags')->get('id');
+        
+        $allTags = $tagLowongan->pluck('tags')->flatten(); // Menggabungkan semua koleksi tags
+        $tagSpesifikasiLowongan = TagSpesifikasiLowongan::all();
         $tag = TagSpesifikasi::all();
+        // dd($tagLowongan);
         $tableLowongan = Lowongan::where('perusahaan_id', '=', $idPerusahaan)->get();
 
+        // dd($tableLowongan);
         // $tableLowongan = Lowongan::with('tags','perusahaan')->where('perusahaan_id',$idPerusahaan)->orderBy('id', 'asc');
-        return view('dashboardBusinesman', compact('tableLowongan', 'tag'));
+        return view('dashboardBusinesman', compact('tableLowongan', 'tag','allTags','tagSpesifikasiLowongan'));
     }
 
     /**
@@ -62,7 +69,7 @@ class LowonganController extends Controller
         $validated = $request->validate([
             'nama_lowongan' => 'required|string|max:255',
             'jumlah' => 'required|integer|min:1',
-            'modal_usaha' => 'required|string|min:7',
+            'modal_usaha' => 'required|string',
             'requirement' => 'required|string|max:1000',
             'benefit' => 'nullable|string|max:500',
             'provinsi' => ['required', 'string', 'max:255'],
@@ -71,6 +78,7 @@ class LowonganController extends Controller
             'kelurahan' => ['required', 'string', 'max:255'],
             'tags' => 'required|array',
         ]);
+        
 
         //requirement
         $requirements = $request->input('requirement');
@@ -83,12 +91,14 @@ class LowonganController extends Controller
         $benfitArray = array_map('trim', $benfitArray);
         $benfitArray = array_filter($benfitArray, fn($value) => !empty($value));
 
+        //mengubah menjadi int
+        $number = (int) str_replace(['Rp.', '.', ','], '', $request->modal_usaha);
 
         $lowongan = Lowongan::create([
             'perusahaan_id' => $idUser->perusahaan->id,
             'nama_lowongan' => $validated['nama_lowongan'],
             'jumlah_lowongan' => $validated['jumlah'],
-            'modal_usaha' => $validated['modal_usaha'],
+            'modal_usaha' => $number,
             'requirement' => json_encode($requirementsArray),
             'benefit' => json_encode($benfitArray),
             'provinsi' => $validated['provinsi'],
@@ -107,15 +117,41 @@ class LowonganController extends Controller
     public function show(string $id)
     {
         Carbon::setLocale('id');
+
+        $LowonganQuery = BergabungPerusahaan::where([
+            ['lowongan_id', $id],
+            ['user_id', Auth::id()],
+        ]);
+
+        $Lowongan = $LowonganQuery->first();
+        $countLowongan = $LowonganQuery->count();
+
         $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis', 'wishlist')->find($id);
-        $wishlist = Wishlist::withCount('lowongan')
-            ->where('lowongan_id', $id)
-            ->first();
-        // dd($wishlist->id);
+
+        $countWishlist = Wishlist::where([
+            ['lowongan_id', $id],
+            ['user_id', Auth::id()],
+        ])->count();
+
+        $wishlist = Wishlist::where([
+            ['lowongan_id', $id],
+            ['user_id', Auth::id()],
+        ])->first('id');
+
         $requirementsArray = json_decode($detailLowongan->requirement, true);
         $benefitArray = json_decode($detailLowongan->benefit, true);
-        return view('detailLowonganBisnis', compact('detailLowongan', 'requirementsArray', 'benefitArray', 'wishlist'));
+
+        return view('detailLowonganBisnis', compact(
+            'detailLowongan',
+            'countWishlist',
+            'Lowongan',
+            'countLowongan',
+            'requirementsArray',
+            'benefitArray',
+            'wishlist'
+        ));
     }
+
 
     public function wishlist($id)
     {
@@ -135,7 +171,7 @@ class LowonganController extends Controller
         $idUser = Auth::id();
         // $detailWishlist = Wishlist::with('lowongan')->find($idUser);
         $detailWishlist = Wishlist::where('user_id', $idUser)->with('lowongan.perusahaan')->get();
-        // dd($detailWishlist->all());
+        // dd($detailWishlist->count());
         return view('wishlist', compact('detailWishlist'));
     }
 
@@ -162,7 +198,7 @@ class LowonganController extends Controller
         $request->validate([
             'nama_lowongan' => 'required|string|max:255',
             'jumlah' => 'required|integer|min:1',
-            'modal_usaha' => 'required|integer|min:1',
+            'modal_usaha' => 'required|string',
             'requirement' => 'required|string|max:1000',
             'benefit' => 'nullable|string|max:500',
             'provinsi' => ['required', 'string', 'max:255'],
@@ -183,13 +219,15 @@ class LowonganController extends Controller
         $benfitArray = array_map('trim', $benfitArray);
         $benfitArray = array_filter($benfitArray, fn($value) => !empty($value));
 
+        $number = (int) str_replace(['Rp.', '.', ','], '', $request->modal_usaha);
+
         $Lowongan = Lowongan::findOrFail($id);
         TagSpesifikasiLowongan::where('lowongan_id', $id)->delete();
 
         $Lowongan->update($request->only([
             'nama_lowongan',
             'jumlah',
-            'modal_usaha',
+            'modal_usaha' =>$number,
             'provinsi',
             'kota',
             'kecamatan',

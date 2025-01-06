@@ -30,9 +30,12 @@ use App\Http\Controllers\profileUserController;
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 });
-Route::get('/listBisnisPartner', function () {
-    return view('listBisnisPartner');
-});
+
+// Route::get('/listBisnisPartner', function () {
+//     return view('listBisnisPartner');
+// });
+
+Route::get('/listBisnisPartner',[VerifikasiController::class, 'BisnisBerjalan'])->name('bisnis.Berjalan');
 
 // Route::get('/settingAkun', function () {
 //     return view('settingAkun');
@@ -105,7 +108,7 @@ Route::get('/tambahLowonganBisnis', function () {
     Route::get('/manageProfilPerusahaanBusinesman', [PerusahaanController::class, 'manageProfil'])->name('manageProfile');
     Route::put('/editProfilPerusahaanBusinesman/{id}', [PerusahaanController::class, 'editProfil'])->name('editProfile');
     Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
-    Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan']);
+    Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan'])->name('profilPerusahaan');
     // });
     
     
@@ -134,6 +137,7 @@ Route::delete('/delete/wishlist/{id}', [LowonganController::class, 'deleteWishli
 
 Route::get('/verifikasiLowongan', [VerifikasiController::class, 'index'])->name('verifikasiLowongan');
 Route::post('/verifikasiLowongan/{id}', [VerifikasiController::class, 'store'])->name('verifikasiLowongan.Store');
+Route::delete('/verifikasiLowongan/{id}', [VerifikasiController::class, 'delete'])->name('verifikasiLowongan.Delete');
 
 Route::put('/terima/{id}', [VerifikasiController::class, 'terima'])->name('terimaUser');
 Route::put('/tolak/{id}', [VerifikasiController::class, 'tolak'])->name('tolakUser');
