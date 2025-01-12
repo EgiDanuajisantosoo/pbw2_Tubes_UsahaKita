@@ -300,7 +300,7 @@
                                                     </svg>
                                                 </button>
 
-                                                <form id="deleteLowongan" action="/dasd" method="POST">
+                                                <form id="deleteLowongan" action="" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -811,7 +811,7 @@
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Ya, Hapus Sekarang!"
                 }).then((result) => {
                     if (result.isConfirmed) {
 

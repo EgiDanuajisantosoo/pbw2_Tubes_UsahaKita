@@ -14,13 +14,16 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         TagSpesifikasi::insert([
-            ['nama_tag' => 'Full-Time'],
-            ['nama_tag' => 'Part-Time'],
-            ['nama_tag' => 'On-site'],
-            ['nama_tag' => 'Work From Home'],
-            ['nama_tag' => '1 year'],
-            ['nama_tag' => '2 year'],
-            ['nama_tag' => '1 - 2 year'],
+            ['nama_tag' => 'Pengalaman 1-3 tahun'],
+            ['nama_tag' => 'Pengalaman >5 tahun'],
+            ['nama_tag' => 'Tanggung Jawab'],
+            ['nama_tag' => 'Kepemimpinan'],
+            ['nama_tag' => 'Disiplin'],
+            ['nama_tag' => 'komunikasi'],
+            ['nama_tag' => 'Pemecah Masalah'],
+            ['nama_tag' => 'Kerja Sama'],
+            ['nama_tag' => 'Mengelola Keuangan'],
+            ['nama_tag' => 'Jujur'],
         ]);
     }
 }

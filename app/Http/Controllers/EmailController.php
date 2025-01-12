@@ -39,7 +39,7 @@ class EmailController extends Controller
         $user = User::find(Auth::id());
 
         // Generate kode verifikasi unik
-        $verificationCode = Str::random(6);
+        $verificationCode = strtoupper(Str::random(6));
 
         // dd($verificationCode);
         // Simpan kode verifikasi untuk email baru

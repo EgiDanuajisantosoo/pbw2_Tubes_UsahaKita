@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\RequestBerhenti;
 
 class User extends Authenticatable
 {
@@ -48,6 +49,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function bisnismanRequests()
+    {
+        return $this->hasMany(RequestBerhenti::class, 'bisnisman_id');
+    }
+
+    // Relasi ke tabel Request sebagai seorang Partner
+    public function partnerRequests()
+    {
+        return $this->hasMany(RequestBerhenti::class, 'partner_id');
     }
     public function role()
     {

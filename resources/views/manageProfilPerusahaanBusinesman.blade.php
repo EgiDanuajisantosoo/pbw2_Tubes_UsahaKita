@@ -71,11 +71,17 @@
                                             <select
                                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
                                                 required name="kategori">
-                                                <option value="">Pilih kategori</option>
-                                                <option value="1">Makanan</option>
-                                                <option value="2">Minuman</option>
+                                                @foreach ($kategoris as $kategori)
+                                                    @if ($kategori->id_kategori == $dataPerusahaan->kategori)
+                                                    <option value="{{ $kategori->id_kategori }}" selected>{{ $kategori->nama_kategori }}</option>
+                                                        @else
+                                                        <option value="{{ $kategori->id_kategori }}">{{ $kategori->nama_kategori }}</option>
+                                                    @endif
+                                                @endforeach
+                                                {{-- <option value="">Pilih kategori</option> --}}
+                                                {{-- <option value="2">Minuman</option>
                                                 <option value="3">Teknologi</option>
-                                                <option value="4">Pendidikan</option>
+                                                <option value="4">Pendidikan</option> --}}
                                             </select>
                                             @error('kategori')
                                                 <p class="text-red text-xs">{{ $message }}</p>

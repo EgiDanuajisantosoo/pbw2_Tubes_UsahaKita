@@ -15,10 +15,13 @@ class KategoriSeeder extends Seeder
     public function run(): void
     {
         KategoriBisnis::insert([
-            ['nama_kategori' => 'Makanan'],
-            ['nama_kategori' => 'Minuman'],
-            ['nama_kategori' => 'Teknologi'],
-            ['nama_kategori' => 'Pendidikan'],
+            ['nama_kategori' => 'Makanan dan Minuman'],
+            ['nama_kategori' => 'Otomotif'],
+            ['nama_kategori' => 'Toserba'],
+            ['nama_kategori' => 'Alat Tulis'],
+            ['nama_kategori' => 'Kecantikan dan Perawatan Diri'],
+            ['nama_kategori' => 'Pakaian dan Aksesoris'],
+            ['nama_kategori' => 'Peralatan Rumah Tangga'],
         ]);
     }
 }

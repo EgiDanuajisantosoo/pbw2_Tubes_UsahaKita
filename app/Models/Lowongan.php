@@ -23,6 +23,10 @@ class Lowongan extends Model
         'status',
     ];
 
+    public function requests()
+    {
+        return $this->hasMany(RequestBerhenti::class, 'lowongan_id');
+    }
     public function perusahaan()
     {
         return $this->belongsTo(Perusahaan::class, 'perusahaan_id');

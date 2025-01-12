@@ -19,8 +19,9 @@ class checkUserController extends Controller
         $user = User::where('email', $email)->first();
         $role = $user->role_id;
         $kategori = KategoriBisnis::all();
-
-        if (Perusahaan::where('user_id', $userId)->exists() && $role == 2 || $role == 3) {
+        $cekDataPerusahaan = Perusahaan::where('user_id', $userId);
+        // dd($cekDataPerusahaan->exists());
+        if ($cekDataPerusahaan->exists() && $role == 2 || $role == 3) {
             return redirect('/lowonganBisnis');
         }else if($role == 1){
             return redirect('/admin');

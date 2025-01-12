@@ -1,10 +1,6 @@
 <x-layout>
-    <x-slot:title>Wishlist</x-slot:title>
+    <x-slot:title>Aktivitas</x-slot:title>
     <x-slot:content>
-
-
-
-
 
         <div class="bg-blue-900 rounded-lg shadow-lg overflow-hidden flex items-center justify-center ">
             <div class="mx-auto px-6 py-12 text-center">
@@ -53,7 +49,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
-                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ 'Rp. ' . number_format( $detailVerifikasi->modal_usaha, 0, ',', '.') }}</p>
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button
                                     class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
@@ -79,7 +75,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
-                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ 'Rp. ' . number_format( $detailVerifikasi->modal_usaha, 0, ',', '.') }}</p>
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button
                                     class=" bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
@@ -105,7 +101,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-500 mt-1">Nama Lowongan : {{ $detailVerifikasi->lowongan->nama_lowongan }}</p>
-                            <p class="text-gray-500 mt-1">Modal : {{ $detailVerifikasi->modal_usaha }}</p>
+                            <p class="text-gray-500 mt-1">Modal : {{ 'Rp. ' . number_format( $detailVerifikasi->modal_usaha, 0, ',', '.') }}</p>
 
                             <div class="flex gap-3 mt-6">
                                 <a href="detailLowonganBisnis/{{ $detailVerifikasi->lowongan->id }}"> <button

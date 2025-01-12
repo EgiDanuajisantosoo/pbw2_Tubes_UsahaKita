@@ -72,7 +72,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="{{ asset('img/defaultProfil.jpg') }}"
+                        <img src="{{ asset('img/Ketua.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -82,14 +82,14 @@
                     <div class="-mt-6 opacity-0 group-hover:opacity-100 group-hover:transtition-all duration-700">
                         <p>Kontak Saya</p>
                         <div class="flex justify-center items-center gap-8 mt-4 ">
-                            <a href="" class="">
+                            <a href="https://wa.me/6283862935048" class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                                     class="w-6 h-6 fill-current text-gray-800 hover:text-green-500">
                                     <path
                                         d="M16 .292C7.163.292.293 7.163.293 16c0 2.773.724 5.47 2.096 7.846L.344 31.708l8.02-2.063c2.282 1.203 4.82 1.836 7.633 1.836 8.837 0 15.708-6.871 15.708-15.708C31.708 7.163 24.837.292 16 .292zM16 29.626c-2.517 0-4.94-.67-7.064-1.93l-.506-.3-4.767 1.227 1.26-4.642-.324-.536A13.3 13.3 0 0 1 2.375 16C2.375 8.651 8.651 2.375 16 2.375S29.625 8.651 29.625 16 23.349 29.626 16 29.626zm8.164-9.59c-.447-.223-2.648-1.308-3.058-1.455-.41-.148-.71-.223-1.008.224-.298.447-1.16 1.455-1.42 1.753-.26.298-.52.336-.968.112-.447-.224-1.885-.695-3.587-2.215-1.326-1.182-2.221-2.646-2.484-3.093-.26-.447-.028-.686.197-.91.202-.201.447-.522.671-.783.224-.26.298-.447.447-.746.149-.298.075-.56-.037-.784-.112-.223-1.008-2.422-1.377-3.307-.36-.885-.726-.759-.968-.772-.26-.013-.522-.015-.784-.015-.26 0-.685.074-1.044.56-.36.447-1.373 1.342-1.373 3.27 0 1.927 1.406 3.794 1.604 4.05.197.26 2.743 4.17 6.647 5.847.93.4 1.65.638 2.21.816.93.297 1.775.256 2.444.156.746-.112 2.29-.934 2.612-1.838.336-.93.336-1.726.236-1.838-.099-.112-.36-.186-.806-.41z" />
                                 </svg>
                             </a>
-                            <a href=https://github.com/EgiDanuajisantosoo"" class="">
+                            <a href="https://github.com/EgiDanuajisantosoo" class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     class="w-6 h-6 fill-current text-gray-800 hover:text-black">
                                     <path
@@ -114,7 +114,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                        <img src="{{ asset('img/defaultProfil.jpg') }}"
+                        <img src="{{ asset('img/Member1.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -124,7 +124,7 @@
                     <div class="-mt-6 opacity-0 group-hover:opacity-100 group-hover:transtition-all duration-700">
                         <p>Kontak Saya</p>
                         <div class="flex justify-center items-center gap-8 mt-4 ">
-                            <a href="">
+                            <a href="https://wa.me/6282233476746">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                                     class="w-6 h-6 fill-current text-gray-800 hover:text-green-500">
                                     <path
@@ -156,7 +156,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                       <img src="{{ asset('img/defaultProfil.jpg') }}"
+                       <img src="{{ asset('img/Member2.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -166,7 +166,7 @@
                     <div class="-mt-6 opacity-0 group-hover:opacity-100 group-hover:transtition-all duration-700">
                         <p>Kontak Saya</p>
                         <div class="flex justify-center items-center gap-8 mt-4 ">
-                            <a href="" class="">
+                            <a href="https://wa.me/6282380840809" class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                                     class="w-6 h-6 fill-current text-gray-800 hover:text-green-500">
                                     <path
@@ -198,7 +198,7 @@
                     class="group bg-white p-6 rounded-lg shadow-lg text-center h-[300px] hover:h-[350px] hover:transition duration-700">
                     <div
                         class="w-48 h-48 mx-auto mb-4 overflow-hidden rounded-full group-hover:rounded-none group-hover:transform group-hover:-translate-y-10 duration-700">
-                       <img src="{{ asset('img/defaultProfil.jpg') }}"
+                       <img src="{{ asset('img/Member3.jpg') }}"
                             alt="" class="w-full h-full object-cover">
                     </div>
                     <div class="group-hover:transform group-hover:-translate-y-10 duration-700">
@@ -208,7 +208,7 @@
                     <div class="-mt-6 opacity-0 group-hover:opacity-100 group-hover:transtition-all duration-700">
                         <p>Kontak Saya</p>
                         <div class="flex justify-center items-center gap-8 mt-4 ">
-                            <a href="" class="">
+                            <a href="https://wa.me/62895361090564" class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                                     class="w-6 h-6 fill-current text-gray-800 hover:text-green-500">
                                     <path

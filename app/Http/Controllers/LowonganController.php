@@ -123,7 +123,8 @@ class LowonganController extends Controller
             ['user_id', Auth::id()],
         ]);
 
-        $Lowongan = $LowonganQuery->first();
+        $Lowongan = $LowonganQuery->with('lowongan.perusahaan')->first();
+        // dd($Lowongan->lowongan->perusahaan->nama_perusahaan);
         $countLowongan = $LowonganQuery->count();
 
         $detailLowongan = Lowongan::with('perusahaan.kategori_bisnis', 'wishlist')->find($id);

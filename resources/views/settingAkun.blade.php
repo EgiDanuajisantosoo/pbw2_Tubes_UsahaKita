@@ -2,6 +2,17 @@
     <x-slot:title>Setting Akun</x-slot:title>
     <x-slot:content>
 
+        @if ($errors->has('password_sekarang'))
+            <div id="alert-password"
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2 text-center"
+                role="alert">
+                <span class="block sm:inline">{{ $errors->first('password_sekarang') }}</span>
+                <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                    onclick="document.getElementById('alert-password').style.display='none';">
+                    <span class="text-red-500 font-bold">&times;</span>
+                </button>
+            </div>
+        @endif
 
 
         <div class="max-w-3xl mx-auto mb-24 mt-24 p-6 bg-white shadow-md rounded-lg ">
@@ -19,7 +30,8 @@
                         <p class="text-sm text-gray-600">Email</p>
                         <p class="text-gray-800 font-medium">{{ $dataUser->email }}</p>
                     </div>
-                    <button class="text-blue-600 text-sm font-medium hover:text-blue-700" onClick="openModalEmail()">Edit</button>
+                    <button class="text-blue-600 text-sm font-medium hover:text-blue-700"
+                        onClick="openModalEmail()">Edit</button>
                 </div>
 
                 <!-- Kata Sandi -->
@@ -32,24 +44,18 @@
                         onClick="openModalPassword()">Edit</button>
                 </div>
 
-                <!-- Hapus Akun -->
-                <div class="border-t pt-6">
-                    <div class="flex items-center justify-between">
-                        <p class="text-sm text-gray-600">Hapus Akun</p>
 
-                        <button class="text-red-600 text-sm font-medium hover:text-red-700">Hapus</button>
-                    </div>
-                </div>
             </div>
         </div>
 
         {{-- Modal EMail --}}
         <div id="modalEmail" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <form action="{{ route('ganti.email') }}" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+            <form action="{{ route('ganti.email') }}" method="POST"
+                class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
                 @csrf
                 <div class="flex justify-between">
                     <h1>Edit Email</h1>
-                    <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalEmail()" >
+                    <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalEmail()">
                         &times;
                     </button>
                 </div>
@@ -69,25 +75,29 @@
 
         {{-- Modal Passowrd --}}
 
-        <div id="modalPassword" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <form action="{{ route('gantiSandi') }}" method="POST" class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
+        <div id="modalPassword"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <form id="gantiPass" action="{{ route('gantiSandi') }}" method="POST" onsubmit=" return confirmPass()"
+                class="space-y-4 bg-white rounded-lg p-6 shadow-md max-w-md w-full">
                 @csrf
                 <div class="flex justify-between">
                     <h1>Edit Password</h1>
-                    <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalPassword()" >
+                    <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeModalPassword()">
                         &times;
                     </button>
                 </div>
                 <div>
-                    <input type="password" name="password_sekarang" placeholder="Password saat ini"
+                    <input type="password" name="password_sekarang" placeholder="Password saat ini" minlength="8"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <input type="password" name="password_baru" placeholder="Password Baru"
+                    <input type="password" id="password_baru" name="password_baru" placeholder="Password Baru"
+                        minlength="8"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <input type="password" name="konfirmasi_password" placeholder="Konfirmasi Password"
+                    <input type="password" id="konfirmasi_password" name="konfirmasi_password"
+                        placeholder="Konfirmasi Password" minlength="8"
                         class="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="flex justify-end gap-5">
@@ -117,8 +127,26 @@
 </x-layout>
 
 <script>
+    setTimeout(() => {
+        const alertPassword = document.getElementById('alert-password');
+        if (alertPassword) {
+            alertPassword.style.display = 'none';
+        }
+    }, 3000);
 
-function openModalEmail() {
+    function confirmPass() {
+        let passBaru = document.getElementById("password_baru").value;
+        let konfirPass = document.getElementById("konfirmasi_password").value;
+
+        if (passBaru !== konfirPass) {
+            alert('Password Baru dan Konfirmasi Password tidak sesuai.');
+            document.getElementById("konfirmasi_password").focus();
+            return false;
+        }
+        return true;
+    }
+
+    function openModalEmail() {
         document.getElementById('modalEmail').classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
     }
@@ -147,5 +175,4 @@ function openModalEmail() {
         document.getElementById('modalHapus').classList.add('hidden');
         document.body.classList.add('overflow-hidden');
     }
-
 </script>

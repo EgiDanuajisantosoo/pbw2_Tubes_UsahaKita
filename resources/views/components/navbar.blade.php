@@ -1,3 +1,42 @@
+@if (Auth::check() && Auth::user()->role_id == 2)
+    @php
+        $user = Auth::user()->load('perusahaan');
+    @endphp
+    @if (isset($user->perusahaan) && $user->perusahaan->status == 'ditolak')
+        <div class="fixed z-40 min-w-[100%] min-h-[100%] bg-gray-50 bg-opacity-50">
+            <div class="p-8 mt-20  fixed w-full z-50">
+                <div class="bg-white w-1/2 mx-auto p-4 rounded-md shadow-lg bg-gray-50">
+                    <h1 class="text-2xl text-center font-bold  mb-4">Perusahaan Anda Ditolak Oleh Admin! <p
+                            class="text-blue-500">UsahaKita</p>
+                    </h1>
+                    <h3 class="text-gray-700 text-center mb-4">Dengan Alasan :</h3>
+                    <p class="text-gray-700 text-center mb-4">{{ $user->perusahaan->alasan }}</p><br><br>
+                    <p class="text-red-600 text-center mb-4">jika anda ingin mengisi ulang data perusahaan silahkan pilih
+                        opsi dibawah ini</p>
+
+                    <div class="text-right flex justify-end gap-2">
+                        <form action="{{ route('daftarUlang') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                                class="inline-block bg-blue-500 py-2 px-4 text-white rounded-md font-semibold uppercase text-sm ">Daftar
+                                Ulang
+                            </button>
+                        </form>
+                        <form action="{{ route('hapusAkun') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                                class="inline-block bg-red-500 py-2 px-4 text-white rounded-md font-semibold uppercase text-sm ">Hapus
+                                Akun
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+@endif
 <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 light:bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -43,11 +82,12 @@
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Profile</a>
                         </li>
                     @endif
-                    @if (Auth::check() && Auth::user()->role_id == 2)
+                    @if (isset($user->perusahaan) && $user->perusahaan->status == 'terverifikasi')
                         <li><a href="/dashboardBusinesman"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Dashboard</a>
                         </li>
                     @endif
+
                     @if (Auth::check())
                         @if (Auth::user()->role_id == 3)
                             <li><a href="/verifikasiLowongan"
@@ -55,7 +95,8 @@
                         @endif
                         </li>
                         <li><a href="{{ route('setting') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Settings</a>
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:hover:bg-gray-600 light:text-gray-200 light:hover:text-white">Pengaturan
+                                Akun</a>
                         </li>
                     @endif
                     @if (!Auth::check())

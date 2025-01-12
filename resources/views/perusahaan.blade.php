@@ -11,7 +11,7 @@
                         <h1 class="text-3xl font-semibold">Temukan perusahaan yang tepat untuk Anda</h1>
                         <p class="mt-2 text-lg">Semua yang perlu diketahui tentang perusahaan, di satu tempat</p>
                     </div>
-                    <img src="https://via.placeholder.com/150" alt="Person" class="h-32 w-32 rounded-full">
+                   
                 </div>
 
                 <!-- Form Pencarian -->
@@ -48,7 +48,7 @@
                                 @endif
 
                                 <h2 class="text-lg font-semibold">{{ $perusahaans->nama_perusahaan }}</h2>
-                                <p class="text-gray-600">⭐ 4.3 • 70 Ulasan</p>
+                                {{-- <p class="text-gray-600">⭐ 4.3 • 70 Ulasan</p> --}}
                                 @if ($count && $count->total_lowongan != 0)
                                     <button
                                         class="mt-3 bg-blue-500 text-white py-1 px-4 rounded">{{ $count ? $count->total_lowongan : 0 }}

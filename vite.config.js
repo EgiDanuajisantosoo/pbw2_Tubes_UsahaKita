@@ -11,14 +11,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    // server: {
-    //     host: '0.0.0.0', // Agar dapat diakses oleh perangkat lain
-    //     port: 3000,       // Port default, sesuaikan jika diperlukan
-    //     strictPort: true, // Error jika port sedang digunakan
-    //     hmr: {
-    //         host: '192.168.1.15', // Ganti dengan IP lokal Anda
-    //     },
-    // },
+    server: {
+        host: '0.0.0.0', // Agar dapat diakses oleh perangkat lain
+        port: 3000,       // Port default, sesuaikan jika diperlukan
+        strictPort: true, // Error jika port sedang digunakan
+        hmr: {
+            host: '192.168.1.4', // Ganti dengan IP lokal Anda
+        },
+    },
     // server: {
     //     host: '0.0.0.0', // Mengizinkan akses dari semua perangkat
     //     port: 8000,       // Port default yang sama dengan yang Anda gunakan di Ngrok

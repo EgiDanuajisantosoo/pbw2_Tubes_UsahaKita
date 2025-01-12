@@ -13,6 +13,7 @@ class BergabungPerusahaan extends Model
         'user_id',
         'lowongan_id',
         'modal_usaha',
+        'alasan',
         'status_permintaan',
     ];
 

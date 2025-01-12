@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BerhentiBekerjaSamaController;
 use App\Http\Controllers\checkUserController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\LowonganController;
@@ -36,6 +37,7 @@ Route::get('/aboutUs', function () {
 // });
 
 Route::get('/listBisnisPartner',[VerifikasiController::class, 'BisnisBerjalan'])->name('bisnis.Berjalan');
+Route::get('/permintaanBerhenti',[VerifikasiController::class, 'PermintaanBerhenti'])->name('permintaan.Berhenti');
 
 // Route::get('/settingAkun', function () {
 //     return view('settingAkun');
@@ -109,6 +111,8 @@ Route::get('/tambahLowonganBisnis', function () {
     Route::put('/editProfilPerusahaanBusinesman/{id}', [PerusahaanController::class, 'editProfil'])->name('editProfile');
     Route::get('/listPermintaanBergabung', [PerusahaanController::class, 'listPermintaan'])->name('listPermintaan');
     Route::get('/profilePerusahaan/{id}', [PerusahaanController::class, 'profilPerusahaan'])->name('profilPerusahaan');
+    Route::delete('/daftarUlang', [PerusahaanController::class, 'DaftarUlang'])->name('daftarUlang');
+    Route::delete('/hapusAkun', [PerusahaanController::class, 'BatalBergabung'])->name('hapusAkun');
     // });
     
     
@@ -117,8 +121,6 @@ Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/pilihRole', [pickRoleController::class, 'index'])->name('pilihRole');
 Route::post('/pilihRole', [pickRoleController::class, 'store'])->name('pickRole');
-
-
 
 //ganti email
 Route::get('/setting', [EmailController::class, 'setting'])->name('setting');
@@ -144,6 +146,9 @@ Route::put('/tolak/{id}', [VerifikasiController::class, 'tolak'])->name('tolakUs
 
 Route::get('/listUserBergabung',[PerusahaanController::class, 'listUserBergabung'])->name('listUserBergabung');
 Route::delete('/deleteLowongan/{id}',[LowonganController::class, 'deleteLowongan'])->name('deleteLowongan');
+
+Route::post('/berhentiBekerjasamaBisnisman',[BerhentiBekerjaSamaController::class, 'BisnismanBerhenti'])->name('Bisnisman.Berhenti');
+Route::post('/berhentiBekerjasamaPartner',[BerhentiBekerjaSamaController::class, 'PartnerBerhenti'])->name('Partner.Berhenti');
 
 //Route API Lokasi
 Route::get('/api/provinces', [LokasiController::class, 'getProvinces']);

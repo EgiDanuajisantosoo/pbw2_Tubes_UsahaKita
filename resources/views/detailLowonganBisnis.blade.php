@@ -34,7 +34,7 @@
                     <svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                         <!-- Ikon gaji -->
                     </svg>
-                    Mulai Dari Rp {{ $detailLowongan->modal_usaha }}
+                    Mulai Dari {{ 'Rp. ' . number_format($detailLowongan->modal_usaha, 0, ',', '.') }}
                 </p>
             </div>
 
@@ -45,9 +45,42 @@
                 <div class="flex space-x-4">
                     @if ($Lowongan)
                         @if ($Lowongan->status_permintaan == 'diterima')
-                            <button
+                            <form id="berhenti-form" action="{{ route('Partner.Berhenti') }} " method="POST">
+                                @csrf
+                                <input type="text" id="id_lowongan" name="id_lowongan" value="" style="display: none">
+                            </form>
+                            {{-- <button onclick="confirmTolak('{{ $Lowongan->alasan }}','{{ $Lowongan->lowongan->perusahaan->nama_perusahaan }}')"
+                                class="bg-red-100 text-red-500 font-semibold px-4 py-2 rounded hover:bg-red-200  active:scale-95 transition duration-300"
+                                type="submit">DiTolak Perusahaan</button> --}}
+                            <button onclick="PermintaanBerhenti('{{ $Lowongan->lowongan_id }}')"
                                 class="bg-emerald-100 text-green-800 font-semibold px-4 py-2 rounded hover:bg-emerald-200  active:scale-95 transition duration-300">
                                 Bekerja Sama</button>
+                                <script>
+                                    function PermintaanBerhenti(id_lowongan){
+                                        Swal.fire({
+                                            title: "Apakah Anda Yakin Mengakhiri Kerja Sama?",
+                                            text: "You won't be able to revert this!",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Ya, Akhiri Sekarang!"
+                                        }).then((result) => {
+                                            document.getElementById('id_lowongan').value = id_lowongan
+                                            // document.getElementById('id_partner').value = user_id
+
+                                            if (result.isConfirmed) {
+                                                Swal.fire({
+                                                    title: "Berhasil Mengirimkan Permintaan Ke Admin",
+                                                    text: "Silakan Tunggu Konfirmasi Admin dan Partner Anda",
+                                                    icon: "success"
+                                                });
+                                                // document.getElementById('BerhentiBekerjaSama').action = url;
+                                                document.getElementById('berhenti-form').submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                         @elseif($Lowongan->status_permintaan == 'pendding')
                             <form id="delete-form"
                                 action="{{ route('verifikasiLowongan.Delete', ['id' => $detailLowongan->id]) }} "
@@ -58,6 +91,17 @@
                             <button onclick="confirmDelete()"
                                 class="bg-red-100 text-red-500 font-semibold px-4 py-2 rounded hover:bg-red-200  active:scale-95 transition duration-300"
                                 type="submit">Batalkan</button>
+                        @elseif($Lowongan->status_permintaan == 'ditolak')
+                            <form id="delete-form"
+                                action="{{ route('verifikasiLowongan.Delete', ['id' => $detailLowongan->id]) }} "
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <button
+                                onclick="confirmTolak('{{ $Lowongan->alasan }}','{{ $Lowongan->lowongan->perusahaan->nama_perusahaan }}')"
+                                class="bg-red-100 text-red-500 font-semibold px-4 py-2 rounded hover:bg-red-200  active:scale-95 transition duration-300"
+                                type="submit">DiTolak Perusahaan</button>
                         @endif
                     @else
                         <button
@@ -130,7 +174,8 @@
                     </button>
                 </div>
                 <!-- Isi Modal -->
-                <form action="{{ route('verifikasiLowongan.Store', ['id' => $detailLowongan->id]) }}" method="POST" onsubmit="return validateForm({{ $detailLowongan->modal_usaha }})">
+                <form action="{{ route('verifikasiLowongan.Store', ['id' => $detailLowongan->id]) }}" method="POST"
+                    onsubmit="return validateForm({{ $detailLowongan->modal_usaha }})">
                     @csrf
                     <div class="mb-4">
                         <label for="modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha yang
@@ -184,7 +229,7 @@
         var modalUsaha = parseInt(modalUsahaValue, 10);
         let format = `Rp. ${minModal.toLocaleString('id-ID', { minimumFractionDigits: 0 })}`;
         if (modalUsaha < minModal) {
-            alert("Minimal modal usaha yang ditawarkan adalah "+format);
+            alert("Minimal modal usaha yang ditawarkan adalah " + format);
             return false;
         }
         return true;
@@ -201,6 +246,23 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Batalkan!',
             cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form').submit();
+            }
+        });
+    }
+
+    function confirmTolak(alasan, namaPerusahaan) {
+        Swal.fire({
+            title: `Anda ditolak oleh perusahaan ${namaPerusahaan}!`,
+            text: `Alasan: ${alasan}`,
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Batalkan Permintaan!',
+            // cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('delete-form').submit();

@@ -25,12 +25,12 @@
                             <tbody>
                                 @foreach ($listBergabung as $no => $listBergabungs)
                                     <tr>
-                                        <td class="border px-4 py-2">{{ $no+1 }}</td>
-                                        <td class="border px-4 py-2"> <a
+                                        <td class="border px-4 py-2">{{ $no + 1 }}</td>
+                                        <td class="border px-4 py-2"> <a class="font-medium text-blue-600 dark:text-blue-800 hover:underline"
                                                 href="/profile/{{ $listBergabungs->user->id }}">{{ $listBergabungs->user->nama_depan }}
                                                 {{ $listBergabungs->user->nama_belakang }}</a></td>
-                                        <td class="border px-4 py-2"> <a
-                                                href="#">{{ $listBergabungs->lowongan->nama_lowongan }}</a></td>
+                                        <td class="border px-4 py-2"> <a class="font-medium text-blue-600 dark:text-blue-800 hover:underline"
+                                                href="/detailLowonganBisnis/{{ $listBergabungs->lowongan_id }}">{{ $listBergabungs->lowongan->nama_lowongan }}</a></td>
                                         <td class="border px-4 py-2 text-center">
                                             <!-- Tombol WhatsApp -->
                                             <a href="https://wa.me/6281234567890" target="_blank"
@@ -43,12 +43,13 @@
                                             </a>
                                         </td>
                                         <td class="border px-4 py-2">
-                                            {{ $listBergabungs->modal_usaha }}
+                                            {{ 'Rp. ' . number_format($listBergabungs->modal_usaha, 0, ',', '.') }}
                                         </td>
                                         <td class="border px-4 py-2 text-center">
                                             <div class="flex justify-center space-x-2">
                                                 <!-- Tombol Terima -->
-                                                <button onclick="confirmAction('/terima/{{ $listBergabungs->id }}', 'Terima')"
+                                                <button
+                                                    onclick="confirmActionTerima('/terima/{{ $listBergabungs->id }}', 'Terima')"
                                                     class="flex items-center px-3 py-1 text-sm bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-200">
                                                     <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,7 +60,8 @@
                                                 </button>
 
                                                 <!-- Tombol Tolak -->
-                                                <button onclick="confirmAction('/tolak/{{ $listBergabungs->id }}', 'Tolak')"
+                                                <button
+                                                    onclick="confirmActionTolak('/tolak/{{ $listBergabungs->id }}', 'Tolak')"
                                                     class="flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-200">
                                                     <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,14 +83,20 @@
         </div>
 
         {{-- form --}}
-        <form id="action-form" action="" method="POST" style="display: none;">
+        <form id="action-formTerima" action="" method="POST" style="display: none;">
             @csrf
             @method('PUT')
         </form>
 
+        <form id="action-formTolak" action="" method="POST" style="display: none;">
+            @csrf
+            @method('PUT')
+            <input type="text" name="alasan" id="alasan"></input>
+        </form>
+
 
         <script>
-            function confirmAction(actionUrl, actionText) {
+            function confirmActionTerima(actionUrl, actionText) {
                 Swal.fire({
                     title: `Apakah Anda yakin ingin ${actionText}?`,
                     text: "Data ini tidak dapat dikembalikan!",
@@ -100,11 +108,67 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById('action-form').action = actionUrl;
-                        document.getElementById('action-form').submit();
+                        document.getElementById('action-formTerima').action = actionUrl;
+                        document.getElementById('action-formTerima').submit();
                     }
                 });
             }
+
+            function confirmActionTolak(actionUrl, actionText) {
+                (async () => {
+                        const {
+                            value: text
+                        } = await Swal.fire({
+                                input: "textarea",
+                                inputLabel: "Message",
+                                inputPlaceholder: "Type your message here...",
+                                inputAttributes: {
+                                    "aria-label": "Type your message here"
+                                },
+                                showCancelButton: true
+                            });
+                            if (text) {
+                                document.getElementById('alasan').value = text;
+                                document.getElementById('action-formTolak').action = actionUrl;
+                                document.getElementById('action-formTolak').submit();
+                                // Swal.fire(text);
+                                // console.log(text);
+
+                            }
+                        })()
+                    // Swal.fire({
+                    //     title: `Apakah Anda yakin ingin ${actionText}?`,
+                    //     text: "Data ini tidak dapat dikembalikan!",
+                    //     icon: 'warning',
+                    //     showCancelButton: true,
+                    //     confirmButtonColor: '#3085d6',
+                    //     cancelButtonColor: '#d33',
+                    //     confirmButtonText: `Ya, ${actionText}!`,
+                    //     cancelButtonText: 'Batal'
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         document.getElementById('action-form').action = actionUrl;
+                    //         document.getElementById('action-form').submit();
+                    //     }
+                    // });
+                }
+                // function confirmAction(actionUrl, actionText) {
+                //     Swal.fire({
+                //         title: `Apakah Anda yakin ingin ${actionText}?`,
+                //         text: "Data ini tidak dapat dikembalikan!",
+                //         icon: 'warning',
+                //         showCancelButton: true,
+                //         confirmButtonColor: '#3085d6',
+                //         cancelButtonColor: '#d33',
+                //         confirmButtonText: `Ya, ${actionText}!`,
+                //         cancelButtonText: 'Batal'
+                //     }).then((result) => {
+                //         if (result.isConfirmed) {
+                //             document.getElementById('action-form').action = actionUrl;
+                //             document.getElementById('action-form').submit();
+                //         }
+                //     });
+                // }
         </script>
     </x-slot:content>
 </x-layout>

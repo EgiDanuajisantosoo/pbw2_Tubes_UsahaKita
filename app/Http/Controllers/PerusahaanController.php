@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\BergabungPerusahaan;
+use App\Models\KategoriBisnis;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Models\User;
 use App\Models\Lowongan;
+use App\Models\ProfileUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -66,7 +68,7 @@ class PerusahaanController extends Controller
             'kategori' => ['required', 'int', 'max:2'],
             'foto_ktp' => ['required', 'image', 'max:10240'],
             'logo_perusahaan' => ['required', 'image', 'max:10240'],
-            'deskripsi' => ['string'],
+            'deskripsi' => ['string','nullable'],
         ]);
 
         $fotoKtpPath = $request->file('foto_ktp')->store('public/foto_ktp');
@@ -144,8 +146,9 @@ class PerusahaanController extends Controller
         $idUser = Auth::id();
         // $dataPerusahaan = Perusahaan::with('kategori_bisnis', 'lowongan')->find($idUser);
         $dataPerusahaan = Perusahaan::where('user_id', $idUser)->with('kategori_bisnis', 'lowongan')->first();
+        $kategoris = KategoriBisnis::All();
         // dd($dataPerusahaan);
-        return view('manageProfilPerusahaanBusinesman', compact('dataPerusahaan'));
+        return view('manageProfilPerusahaanBusinesman', compact('dataPerusahaan','kategoris'));
     }
 
     public function listPermintaan()
@@ -167,4 +170,25 @@ class PerusahaanController extends Controller
 
         return view('listUserBergabung', compact('userBergabung'));
     }
+
+    
+    public function BatalBergabung(){
+        $Perusahaan = Perusahaan::where('user_id',Auth::id())->first();
+        $ProfilUser = ProfileUser::where('user_id',Auth::id())->first();
+        $User = User::find(Auth::id());
+
+        if (isset($ProfilUser)) {
+            $ProfilUser->delete();
+        }
+        $Perusahaan->delete();
+        $User->delete();
+        return redirect()->route('lowongan.index');
+    }
+
+    public function DaftarUlang(){
+    $Perusahaan = Perusahaan::where('user_id',Auth::id())->first();
+    $Perusahaan->delete();
+    return redirect()->route('checkUser');
+    }
+
 }

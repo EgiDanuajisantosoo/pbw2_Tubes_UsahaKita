@@ -39,8 +39,8 @@ class profileUserController extends Controller
     {
         $idUser = Auth::user()->id;
         $request->validate([
-            'profile' => 'required|image|max:2048',
-            'banner' => 'required|image|max:2048',
+            'profile' => 'image|max:2048',
+            'banner' => 'image|max:2048',
             'slogan' => 'required',
             'jenis_kelamin' => 'required',
             'no_telp' => 'required',
@@ -76,8 +76,6 @@ class profileUserController extends Controller
         $sertifikasiArray = explode(",", $sertifikasi);
         $sertifikasiArray = array_map('trim', $sertifikasiArray);
         $sertifikasiArray = array_filter($sertifikasiArray, fn($value) => !empty($value));
-
-        // dd($idUser);
 
         ProfileUser::create([
             'user_id' => $idUser,

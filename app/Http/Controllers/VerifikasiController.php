@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BergabungPerusahaan;
+use App\Models\RequestBerhenti;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -46,15 +47,33 @@ class VerifikasiController extends Controller
         return redirect()->route('listPermintaan');
     }
 
-    public function tolak($id){
-        BergabungPerusahaan::where('id',$id)->update(['status_permintaan' => 'ditolak']);
+    public function tolak(Request $request, $id){
+        $request->validate([
+            'alasan' => 'string'
+        ]);
+        // dd($request->alasan);
+        BergabungPerusahaan::where('id',$id)->update(['status_permintaan' => 'ditolak','alasan' => $request->alasan]);
         return redirect()->route('listPermintaan');
     }
 
     public function BisnisBerjalan(){
+        // $dataBerhenti = RequestBerhenti::where('partner_id',Auth::id());
+
+        // if ($dataBerhenti->exists()) {
+        //     $dataBerhenti->get();
+        // }
         $data = BergabungPerusahaan::where([['status_permintaan','diterima'],['user_id',Auth::id()]])->with('lowongan.perusahaan')->get();
-        // dd($data);
-        return view('listBisnisPartner',compact('data'));
+        return view('listBisnisPartner',compact('data',));
+    }
+
+    public function PermintaanBerhenti(){
+        $dataBerhenti = RequestBerhenti::where('partner_id',Auth::id())->with('lowongan.perusahaan')->get();
+
+        // if ($dataBerhenti->exists()) {
+        //     $dataBerhenti->get();
+        // }
+
+        return view('permintaanBerhenti' ,compact('dataBerhenti'));
     }
 
 

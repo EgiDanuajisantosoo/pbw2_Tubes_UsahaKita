@@ -54,8 +54,9 @@ class PerusahaanResource extends Resource
                 ->searchable(),
                 TextColumn::make('nama_perusahaan')->url(fn($record) => route('profilPerusahaan', ['id' => $record->id]))
                 ->searchable(),
+                TextColumn::make('no_telp')->url(fn($record) => 'https://wa.me/'.$record->no_telp, true),
                 TextColumn::make('email_perusahaan')->searchable(),
-                TextColumn::make('no_telp'),
+
                 // SpatieMediaLibraryFileUpload::make('image')
                 //     ->url(fn($record) => asset('storage/' . $record->foto_ktp))
                 //     ->size(100),

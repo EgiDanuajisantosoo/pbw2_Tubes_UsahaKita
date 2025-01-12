@@ -25,9 +25,12 @@
                             <tbody>
                                 @foreach ($userBergabung as $no => $userBergabungs)
                                     <tr>
-                                        <td class="border px-4 py-2">{{ $no+1 }}</td>
-                                        <td class="border px-4 py-2"> <a href="#">{{ $userBergabungs->user->nama_depan }} {{ $userBergabungs->user->nama_belakang }}</a></td>
-                                        <td class="border px-4 py-2"> <a href="#">{{ $userBergabungs->lowongan->nama_lowongan }}</a></td>
+                                        <td class="border px-4 py-2">{{ $no + 1 }}</td>
+                                        <td class="border px-4 py-2"> <a
+                                                href="/profile/{{ $userBergabungs->user_id }}">{{ $userBergabungs->user->nama_depan }}
+                                                    {{ $userBergabungs->user->nama_belakang }}</a></td>
+                                        <td class="border px-4 py-2"> <a
+                                            href="/detailLowonganBisnis/{{ $userBergabungs->lowongan_id }}">{{ $userBergabungs->lowongan->nama_lowongan }}</a></td>
                                         <td class="border px-4 py-2 text-center">
                                             <!-- Tombol WhatsApp -->
                                             <a href="https://wa.me/6281234567890" target="_blank"
@@ -55,7 +58,7 @@
                                         <td class="border px-4 py-2 text-center">
                                             <div class="flex justify-center space-x-2">
                                                 <!-- Tombol Akhiri Kerja sama -->
-                                                <button
+                                                <button onclick="akhiriKerjaSama('{{ $userBergabungs->lowongan_id }}','{{ $userBergabungs->user_id }}','{{ route('Bisnisman.Berhenti')}}')"
                                                     class="flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-200">
                                                     <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,6 +71,37 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                <form id="BerhentiBekerjaSama" action="" method="POST" style="display: none;">
+                                    @csrf
+                                    <input type="text" name="id_lowongan" id="id_lowongan" value="" style="display: none;">
+                                    <input type="text" name="id_partner" id="id_partner" value="" style="display: none;">
+                                </form>
+                                <script>
+                                    function akhiriKerjaSama(lowongan_id,user_id,url) {
+                                        Swal.fire({
+                                            title: "Apakah Anda Yakin Mengakhiri Kerja Sama?",
+                                            text: "You won't be able to revert this!",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Ya, Akhiri Sekarang!"
+                                        }).then((result) => {
+                                            document.getElementById('id_lowongan').value = lowongan_id
+                                            document.getElementById('id_partner').value = user_id
+
+                                            if (result.isConfirmed) {
+                                                Swal.fire({
+                                                    title: "Berhasil Mengirimkan Permintaan Ke Admin",
+                                                    text: "Silakan Tunggu Konfirmasi Admin dan Partner Anda",
+                                                    icon: "success"
+                                                });
+                                                document.getElementById('BerhentiBekerjaSama').action = url;
+                                                document.getElementById('BerhentiBekerjaSama').submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                                 <tr>
                                     {{-- <td class="border px-4 py-2">2</td>
                                     <td class="border px-4 py-2"><a href="#">Bambang Guling </a></td>
@@ -109,7 +143,7 @@
                                         </div>
                                     </td>
                                 </tr> --}}
-                                <!-- Tambahkan baris lainnya -->
+                                    <!-- Tambahkan baris lainnya -->
                             </tbody>
                         </table>
                     </div>
