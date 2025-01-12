@@ -70,7 +70,7 @@ class PerusahaanResource extends Resource
                     ->getStateUsing(
                         fn($record) =>
                         "<img src='" . asset('storage/' . $record->foto_ktp) . "' alt='Foto KTP' style='max-width: 100px; max-height: 100px;'>"
-                    )->url(fn($record) => asset('storage/' . $record->foto_perusahaan)),
+                    )->url(fn($record) => asset('storage/' . $record->foto_ktp)),
                 TextColumn::make('foto_perusahaan')
                     ->label('Logo Perusahaan')
                     ->html()
